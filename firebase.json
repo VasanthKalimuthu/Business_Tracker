@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "our-business-tracker-vkk",
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

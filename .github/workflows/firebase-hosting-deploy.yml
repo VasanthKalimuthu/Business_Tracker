@@ -1,0 +1,39 @@
+name: Deploy to Firebase Hosting
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies (if any)
+        run: npm ci --if-present
+
+      - name: Build (if applicable)
+        run: npm run build --if-present
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Deploy to Firebase Hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          # Ensure we're in the repository root
+          firebase deploy --only hosting:our-business-tracker-vkk --project our-business-tracker --token "$FIREBASE_TOKEN"
+
+# Notes:
+# - Create a CI token with `firebase login:ci` and add it to your repository secrets as FIREBASE_TOKEN.
+# - This workflow deploys on pushes to the `main` branch.

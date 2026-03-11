@@ -1,0 +1,13 @@
+{
+  "name": "cloud-business-splitter",
+  "version": "1.0.0",
+  "description": "Real-time group profit splitting app",
+  "main": "public/index.html",
+  "scripts": {
+    "start": "npx serve public -p 3000"
+  },
+  "dependencies": {
+    "firebase": "^12.10.0",
+    "serve": "^14.2.1"
+  }
+}
