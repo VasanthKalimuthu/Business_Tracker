@@ -4,21 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shared Business Profit Splitter</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Firebase SDKs -->
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/custom.css">
+    
+    <!-- Firebase SDKs (Compat Version for simplicity) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(229, 231, 235, 0.5);
-        }
-        .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; }
-
-    </style>
 </head>
 <body class="bg-slate-50 min-h-screen pb-12">
 
@@ -47,7 +42,7 @@
                 <h2 class="text-lg font-semibold mb-4 flex items-center gap-2"><span>👥</span> Partners</h2>
                 <div class="flex gap-2 mb-4">
                     <input type="text" id="partnerName" placeholder="Name" class="flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
-                    <button onclick="addPartner()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition font-medium text-sm">Add</button>
+                    <button onclick="window.appEvents.addPartner()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition font-medium text-sm">Add</button>
                 </div>
                 <div id="partnersList" class="flex flex-wrap gap-2"></div>
             </div>
@@ -55,7 +50,7 @@
             <div class="glass-card rounded-xl p-6 shadow-sm">
                 <h2 class="text-lg font-semibold mb-4 flex items-center gap-2"><span>💰</span> New Entry</h2>
                 <div class="space-y-4">
-                    <select id="transType" onchange="togglePartnerSelect()" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm bg-white">
+                    <select id="transType" onchange="window.appEvents.togglePartnerSelect()" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm bg-white">
                         <option value="income">Business Income (+)</option>
                         <option value="expense">Business Expense (-)</option>
 
@@ -66,7 +61,7 @@
                     </div>
                     <input type="text" id="desc" placeholder="Label (e.g. Sales, Rent)" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
                     <input type="number" id="amount" placeholder="Amount ($)" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
-                    <button onclick="addTransaction()" class="w-full bg-emerald-600 text-white py-2.5 rounded-lg hover:bg-emerald-700 transition font-bold">Add to Ledger</button>
+                    <button onclick="window.appEvents.addTransaction()" class="w-full bg-emerald-600 text-white py-2.5 rounded-lg hover:bg-emerald-700 transition font-bold">Add to Ledger</button>
                 </div>
             </div>
         </div>
@@ -86,7 +81,7 @@
             </div>
 
             <div class="glass-card rounded-xl shadow-sm overflow-hidden">
-                <div class="px-6 py-4 border-b bg-gray-50 flex justify-between items-center"><h2 class="font-bold text-gray-400 text-xs uppercase">Activity Log</h2><button onclick="clearAllData()" class="text-[10px] text-rose-400 font-bold">RESET DATA</button></div>
+                <div class="px-6 py-4 border-b bg-gray-50 flex justify-between items-center"><h2 class="font-bold text-gray-400 text-xs uppercase">Activity Log</h2><button onclick="window.appEvents.clearAllData()" class="text-[10px] text-rose-400 font-bold">RESET DATA</button></div>
                 <div class="max-h-72 overflow-y-auto"><table class="w-full text-left text-sm"><tbody id="historyTable" class="divide-y divide-gray-100"></tbody></table></div>
             </div>
         </div>
@@ -103,145 +98,12 @@
                 <p><strong>3. Database URL:</strong> Check if your URL looks like <code>https://your-app.firebasedatabase.app</code>. Ensure it matches exactly.</p>
                 <p class="bg-amber-50 p-3 border-l-4 border-amber-400 text-amber-800"><b>Notice:</b> The app is currently saving to your local browser storage so you can test the UI now.</p>
             </div>
-            <button onclick="toggleGuide()" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold">Close</button>
+            <button onclick="window.appEvents.toggleGuide()" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold">Close</button>
         </div>
     </div>
 
-    <script>
-        // --- 1. FIREBASE CONFIG ---
-       const firebaseConfig = {
-          apiKey: "AIzaSyCv0kXO7-4yXCLhlR93AbpRHiAmY92lIPY",
-          authDomain: "our-business-tracker.firebaseapp.com",
-          databaseURL: "https://our-business-tracker-default-rtdb.firebaseio.com",
-          projectId: "our-business-tracker",
-          storageBucket: "our-business-tracker.firebasestorage.app",
-          messagingSenderId: "284731384497",
-          appId: "1:284731384497:web:d361436f75db5d4d547890",
-          measurementId: "G-7CNZSCYH7R"
-        };
-
-
-        let db = null;
-        let isCloudActive = false;
-        let partners = JSON.parse(localStorage.getItem('local_partners')) || [];
-        let transactions = JSON.parse(localStorage.getItem('local_transactions')) || [];
-
-        function setStatus(active) {
-            isCloudActive = active;
-            const dot = document.getElementById('connDot');
-            const txt = document.getElementById('connStatus');
-            dot.className = `status-dot ${active ? 'bg-emerald-400' : 'bg-amber-400'}`;
-            txt.innerText = active ? 'Cloud Synced' : 'Local Mode (No Config)';
-        }
-
-        // Initialize Firebase with fallback
-        try {
-            if (firebaseConfig.apiKey !== "PASTE_YOUR_KEY") {
-                firebase.initializeApp(firebaseConfig);
-                db = firebase.database();
-                setStatus(true);
-
-                
-                // Real-time Cloud Sync
-                db.ref('partners').on('value', snap => { partners = snap.val() || partners; render(); });
-                db.ref('transactions').on('value', snap => {
-                    const data = snap.val() || {};
-                    transactions = Object.keys(data).map(k => ({...data[k], id: k})).sort((a,b) => b.ts - a.ts);
-                    render();
-                });
-            } else {
-                setStatus(false);
-            }
-        } catch (e) {
-            console.error("Firebase failed:", e);
-            setStatus(false);
-        }
-
-        function render() {
-            localStorage.setItem('local_partners', JSON.stringify(partners));
-            localStorage.setItem('local_transactions', JSON.stringify(transactions));
-
-            
-            document.getElementById('partnersList').innerHTML = partners.map(p => `
-                <span class="bg-indigo-50 text-indigo-700 text-xs font-bold px-2 py-1 rounded border border-indigo-100">${p} 
-                    <button onclick="removePartner('${p}')" class="ml-1 opacity-50 hover:opacity-100">&times;</button></span>
-            `).join('') || '<span class="text-xs text-gray-300">Add team members</span>';
-
-            document.getElementById('paidBy').innerHTML = partners.map(p => `<option value="${p}">${p}</option>`).join('');
-
-            const inc = transactions.filter(t => t.type === 'income').reduce((a, t) => a + t.amt, 0);
-            const exp = transactions.filter(t => t.type === 'expense').reduce((a, t) => a + t.amt, 0);
-            const net = inc - exp;
-
-            document.getElementById('totalIncome').innerText = `$${inc.toLocaleString()}`;
-            document.getElementById('totalExpense').innerText = `$${exp.toLocaleString()}`;
-            document.getElementById('netProfit').innerText = `$${net.toLocaleString()}`;
-
-            const hTable = document.getElementById('historyTable');
-            hTable.innerHTML = transactions.map(t => `
-                <tr><td class="px-6 py-3"><div class="font-bold">${t.desc}</div><div class="text-[9px] uppercase text-gray-400">${t.date} ${t.paidBy ? '• ' + t.paidBy : ''}</div></td>
-
-                <td class="text-right font-bold ${t.type === 'income' ? 'text-emerald-500' : 'text-rose-500'}">${t.type === 'income' ? '+' : '-'}$${t.amt.toLocaleString()}</td>
-                <td class="text-center px-4"><button onclick="deleteTransaction('${t.id}')" class="text-gray-200 hover:text-rose-400">&times;</button></td></tr>
-            `).join('');
-
-            const bTable = document.getElementById('breakdownTable');
-            if (!partners.length) return bTable.innerHTML = '';
-            const share = net / partners.length;
-            bTable.innerHTML = partners.map(p => {
-                const paid = transactions.filter(t => t.type === 'expense' && t.paidBy === p).reduce((a, t) => a + t.amt, 0);
-                return `<tr class="hover:bg-indigo-50/50"><td class="px-6 py-4 font-bold text-gray-600">${p}</td>
-                <td class="text-right text-gray-400 text-xs">$${paid.toLocaleString()} reimbursement</td>
-                <td class="text-right font-black text-indigo-700 bg-indigo-50/30">$${(paid + share).toLocaleString()} total payout</td></tr>`;
-            }).join('');
-        }
-
-        function addPartner() {
-            const n = document.getElementById('partnerName').value.trim();
-            if (n && !partners.includes(n)) {
-                partners.push(n);
-
-                if (isCloudActive) db.ref('partners').set(partners);
-                document.getElementById('partnerName').value = '';
-                render();
-            }
-        }
-
-        function removePartner(n) {
-            partners = partners.filter(p => p !== n);
-            if (isCloudActive) db.ref('partners').set(partners);
-            render();
-        }
-
-        function addTransaction() {
-            const amt = parseFloat(document.getElementById('amount').value);
-            const desc = document.getElementById('desc').value || 'Entry';
-            const payload = { type: document.getElementById('transType').value, amt, desc, ts: Date.now(), date: new Date().toLocaleDateString(), paidBy: document.getElementById('transType').value === 'expense' ? document.getElementById('paidBy').value : null };
-            if (isNaN(amt)) return;
-            if (isCloudActive) db.ref('transactions').push(payload);
-            else { transactions.unshift({...payload, id: Date.now()}); render(); }
-
-            document.getElementById('amount').value = ''; document.getElementById('desc').value = '';
-        }
-
-        function deleteTransaction(id) {
-            if (isCloudActive) db.ref('transactions/' + id).remove();
-            else { transactions = transactions.filter(t => t.id != id); render(); }
-        }
-
-        function clearAllData() {
-            if (confirm("Reset everything?")) {
-                if (isCloudActive) { db.ref('partners').set([]); db.ref('transactions').set({}); }
-                else { partners = []; transactions = []; render(); }
-            }
-        }
-
-        function togglePartnerSelect() { document.getElementById('paidByContainer').classList.toggle('hidden', document.getElementById('transType').value === 'income'); }
-        function toggleGuide() { document.getElementById('guideModal').classList.toggle('hidden'); }
-        
-        window.onload = render;
-
-    </script>
+    <!-- Main Application Script (ES6 Module) -->
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
 
