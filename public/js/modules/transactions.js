@@ -49,7 +49,7 @@ export function setTransactions(newTransactions) {
 
 /**
  * Add a new transaction
- * @param {object} transactionData - { type, desc, amount, paidBy }
+ * @param {object} transactionData - { type, desc, amount, paidBy, date (optional), carId }
  * @returns {Promise<object>} { success: boolean, error: string, id: string }
  */
 export async function addTransaction(transactionData) {
@@ -62,13 +62,21 @@ export async function addTransaction(transactionData) {
     };
   }
 
+  // Format date: if custom date provided (YYYY-MM-DD), convert to MM/DD/YYYY
+  let formattedDate = getCurrentDate();
+  if (transactionData.date) {
+    const [year, month, day] = transactionData.date.split('-');
+    formattedDate = `${month}/${day}/${year}`;
+  }
+
   const transaction = {
     id: `tx_${++transactionIdCounter}`,
     type: transactionData.type,
     desc: transactionData.desc.trim(),
     amt: parseFloat(transactionData.amount),
     paidBy: transactionData.paidBy || '',
-    date: getCurrentDate(),
+    carId: transactionData.carId || '',
+    date: formattedDate,
     ts: Date.now()
   };
 

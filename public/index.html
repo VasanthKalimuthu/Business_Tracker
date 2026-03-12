@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shared Business Profit Splitter</title>
+    <title>Car Rental Expense Tracker</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Custom Styles -->
     <link rel="stylesheet" href="css/custom.css">
@@ -15,90 +18,282 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 </head>
-<body class="bg-slate-50 min-h-screen pb-12">
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen text-white pb-12">
 
     <!-- Header Section -->
-    <header class="bg-indigo-700 text-white py-8 mb-8 shadow-lg">
-        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
-            <div>
-                <h1 class="text-3xl font-bold">Cloud Business Splitter</h1>
-                <div class="flex items-center gap-2 mt-1">
-                    <span id="connDot" class="status-dot bg-amber-400"></span>
-                    <span id="connStatus" class="text-xs font-medium text-indigo-100 uppercase tracking-widest">Awaiting Config...</span>
+    <header class="bg-gradient-to-r from-slate-900 to-slate-800 border-b border-slate-700 py-6 mb-8 shadow-xl sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-cyan-600 p-3 rounded-xl">
+                    <i class="fas fa-car text-xl text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold text-white">Fleet Manager</h1>
+                    <div class="flex items-center gap-2 mt-1">
+                        <span id="connDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                        <span id="connStatus" class="text-xs font-medium text-slate-400 uppercase tracking-widest">Connecting...</span>
+                    </div>
                 </div>
             </div>
-            <button onclick="toggleGuide()" class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition">
-                Troubleshoot Sync
-            </button>
         </div>
     </header>
 
+    <main class="max-w-7xl mx-auto px-4">
 
-    <main class="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        <!-- Left Column -->
-        <div class="lg:col-span-1 space-y-6">
-            <div class="glass-card rounded-xl p-6 shadow-sm">
-                <h2 class="text-lg font-semibold mb-4 flex items-center gap-2"><span>👥</span> Partners</h2>
-                <div class="flex gap-2 mb-4">
-                    <input type="text" id="partnerName" placeholder="Name" class="flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
-                    <button onclick="window.appEvents.addPartner()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition font-medium text-sm">Add</button>
+        <!-- Dashboard Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 hover:border-emerald-600 transition">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-slate-400 text-sm uppercase font-semibold tracking-wide">Total Income</p>
+                        <p id="totalIncome" class="text-3xl font-bold text-emerald-400 mt-2">₹0</p>
+                    </div>
+                    <i class="fas fa-arrow-up-right text-emerald-500 text-3xl opacity-20"></i>
                 </div>
-                <div id="partnersList" class="flex flex-wrap gap-2"></div>
             </div>
 
-            <div class="glass-card rounded-xl p-6 shadow-sm">
-                <h2 class="text-lg font-semibold mb-4 flex items-center gap-2"><span>💰</span> New Entry</h2>
-                <div class="space-y-4">
-                    <select id="transType" onchange="window.appEvents.togglePartnerSelect()" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm bg-white">
-                        <option value="income">Business Income (+)</option>
-                        <option value="expense">Business Expense (-)</option>
-
-                    </select>
-                    <div id="paidByContainer" class="hidden">
-                        <label class="block text-[10px] text-gray-400 font-bold mb-1 uppercase">Paid By</label>
-                        <select id="paidBy" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm bg-white"></select>
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 hover:border-rose-600 transition">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-slate-400 text-sm uppercase font-semibold tracking-wide">Total Expenses</p>
+                        <p id="totalExpense" class="text-3xl font-bold text-rose-400 mt-2">₹0</p>
                     </div>
-                    <input type="text" id="desc" placeholder="Label (e.g. Sales, Rent)" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
-                    <input type="number" id="amount" placeholder="Amount ($)" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
-                    <button onclick="window.appEvents.addTransaction()" class="w-full bg-emerald-600 text-white py-2.5 rounded-lg hover:bg-emerald-700 transition font-bold">Add to Ledger</button>
+                    <i class="fas fa-arrow-down-left text-rose-500 text-3xl opacity-20"></i>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 hover:border-blue-600 transition">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-slate-400 text-sm uppercase font-semibold tracking-wide">Net Profit</p>
+                        <p id="netProfit" class="text-3xl font-bold text-blue-400 mt-2">₹0</p>
+                    </div>
+                    <i class="fas fa-chart-line text-blue-500 text-3xl opacity-20"></i>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 hover:border-cyan-600 transition">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-slate-400 text-sm uppercase font-semibold tracking-wide">Total Cars</p>
+                        <p id="carCount" class="text-3xl font-bold text-cyan-400 mt-2">0</p>
+                    </div>
+                    <i class="fas fa-car text-cyan-500 text-3xl opacity-20"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Right Column -->
-        <div class="lg:col-span-2 space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="glass-card p-5 rounded-xl border-l-4 border-emerald-500"><p class="text-[10px] text-gray-500 font-bold uppercase">Income</p><p id="totalIncome" class="text-2xl font-bold text-emerald-600">$0.00</p></div>
-                <div class="glass-card p-5 rounded-xl border-l-4 border-rose-500"><p class="text-[10px] text-gray-500 font-bold uppercase">Expenses</p><p id="totalExpense" class="text-2xl font-bold text-rose-600">$0.00</p></div>
-                <div class="glass-card p-5 rounded-xl border-l-4 border-indigo-500"><p class="text-[10px] text-gray-500 font-bold uppercase">Net Profit</p><p id="netProfit" class="text-2xl font-bold text-indigo-700">$0.00</p></div>
+        <!-- Car Management Section -->
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold flex items-center gap-3">
+                    <i class="fas fa-garage text-cyan-400"></i>
+                    Fleet Vehicles
+                </h2>
+                <button onclick="window.appEvents.openAddCarModal()" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-lg font-semibold transition flex items-center gap-2">
+                    <i class="fas fa-plus"></i>
+                    Add Vehicle
+                </button>
+            </div>
+            <div id="carsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Cars will be rendered here -->
+            </div>
+            <div id="noCarsMessage" class="text-center py-12 text-slate-400">
+                <i class="fas fa-inbox text-5xl mb-4 opacity-30 block"></i>
+                <p>No vehicles added yet. Add your first vehicle to get started!</p>
+            </div>
+        </div>
+
+        <!-- Transaction Management Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+            
+            <!-- New Transaction Form -->
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+                <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
+                    <i class="fas fa-plus-circle text-emerald-400"></i>
+                    New Transaction
+                </h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm text-slate-400 font-semibold mb-2">Vehicle</label>
+                        <select id="carSelect" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                            <option value="">Select a vehicle...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 font-semibold mb-2">Type</label>
+                        <select id="transType" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                            <option value="income">Income (₹)</option>
+                            <option value="expense">Expense (₹)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 font-semibold mb-2">Description</label>
+                        <input type="text" id="desc" placeholder="e.g., Fuel, Maintenance, Rental" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 font-semibold mb-2">Amount</label>
+                        <input type="number" id="amount" placeholder="0" min="0" step="0.01" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 font-semibold mb-2">Date</label>
+                        <input type="date" id="transDate" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                    </div>
+                    <button onclick="window.appEvents.addTransaction()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg font-bold transition flex items-center justify-center gap-2 mt-6">
+                        <i class="fas fa-save"></i>
+                        Record Transaction
+                    </button>
+                </div>
             </div>
 
+            <!-- Filters and Export -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+                    <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
+                        <i class="fas fa-filter text-purple-400"></i>
+                        Filters & Export
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="block text-sm text-slate-400 font-semibold mb-2">Filter by Month</label>
+                            <input type="month" id="filterMonth" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none" onchange="window.appEvents.filterByMonth()">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-slate-400 font-semibold mb-2">Filter by Vehicle</label>
+                            <select id="filterCar" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none" onchange="window.appEvents.filterByMonth()">
+                                <option value="">All Vehicles</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="window.appEvents.downloadCSV()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition">
+                            <i class="fas fa-file-csv"></i>
+                            CSV
+                        </button>
+                        <button onclick="window.appEvents.downloadExcel()" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition">
+                            <i class="fas fa-file-excel"></i>
+                            Excel
+                        </button>
+                        <button onclick="window.appEvents.downloadPDF()" class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition">
+                            <i class="fas fa-file-pdf"></i>
+                            PDF
+                        </button>
+                        <button onclick="window.appEvents.confirmReset()" class="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-200 px-4 py-2 rounded-lg font-semibold text-sm transition ml-auto">
+                            <i class="fas fa-trash-alt"></i>
+                            Reset All Data
+                        </button>
+                    </div>
+                </div>
 
-            <div class="glass-card rounded-xl shadow-sm overflow-hidden">
-                <div class="px-6 py-4 border-b bg-gray-50 uppercase text-[10px] font-black text-gray-400 tracking-widest">Financial Split</div>
-                <div class="overflow-x-auto"><table class="w-full text-left"><tbody id="breakdownTable" class="divide-y divide-gray-200"></tbody></table></div>
+                <!-- Financial Summary -->
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+                    <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
+                        <i class="fas fa-chart-pie text-yellow-400"></i>
+                        Financial Summary
+                    </h2>
+                    <div id="breakdownTable" class="space-y-3">
+                        <!-- Summary will be rendered here -->
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="glass-card rounded-xl shadow-sm overflow-hidden">
-                <div class="px-6 py-4 border-b bg-gray-50 flex justify-between items-center"><h2 class="font-bold text-gray-400 text-xs uppercase">Activity Log</h2><button onclick="window.appEvents.clearAllData()" class="text-[10px] text-rose-400 font-bold">RESET DATA</button></div>
-                <div class="max-h-72 overflow-y-auto"><table class="w-full text-left text-sm"><tbody id="historyTable" class="divide-y divide-gray-100"></tbody></table></div>
+        <!-- Activity Log -->
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+            <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
+                <i class="fas fa-history text-blue-400"></i>
+                Transaction History
+            </h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="border-b border-slate-700">
+                        <tr class="text-slate-400 uppercase text-xs font-bold">
+                            <th class="pb-3 px-4">Date</th>
+                            <th class="pb-3 px-4">Vehicle</th>
+                            <th class="pb-3 px-4">Description</th>
+                            <th class="pb-3 px-4">Type</th>
+                            <th class="pb-3 px-4">Amount</th>
+                            <th class="pb-3 px-4">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTable" class="divide-y divide-slate-700">
+                        <!-- Transactions will be rendered here -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
 
-    <!-- Troubleshoot Modal -->
-    <div id="guideModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-8 shadow-2xl space-y-6">
-            <h3 class="text-2xl font-bold text-indigo-800">Sync Troubleshooting</h3>
-            <div class="space-y-4 text-sm text-gray-600 leading-relaxed">
-                <p><strong>1. API Keys:</strong> Open the code and replace "PASTE_YOUR_KEY" with your actual Firebase API Key.</p>
-                <p><strong>2. Security Rules:</strong> In Firebase Console, go to <b>Realtime Database > Rules</b> and ensure they are set to: <code>{ ".read": true, ".write": true }</code>.</p>
-
-                <p><strong>3. Database URL:</strong> Check if your URL looks like <code>https://your-app.firebasedatabase.app</code>. Ensure it matches exactly.</p>
-                <p class="bg-amber-50 p-3 border-l-4 border-amber-400 text-amber-800"><b>Notice:</b> The app is currently saving to your local browser storage so you can test the UI now.</p>
+    <!-- Add Car Modal -->
+    <div id="addCarModal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-md w-full p-8 space-y-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold flex items-center gap-2">
+                    <i class="fas fa-car text-cyan-400"></i>
+                    Add New Vehicle
+                </h2>
+                <button onclick="window.appEvents.closeAddCarModal()" class="text-slate-400 hover:text-white text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-            <button onclick="window.appEvents.toggleGuide()" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold">Close</button>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm text-slate-300 font-semibold mb-2">Vehicle Name</label>
+                    <input type="text" id="carName" placeholder="e.g., Honda City - White" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm text-slate-300 font-semibold mb-2">Model</label>
+                    <input type="text" id="carModel" placeholder="e.g., Honda City 2022" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm text-slate-300 font-semibold mb-2">Registration Number</label>
+                    <input type="text" id="carRego" placeholder="e.g., MH03AB1234" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 uppercase">
+                </div>
+
+                <div>
+                    <label class="block text-sm text-slate-300 font-semibold mb-2">Vehicle Photo</label>
+                    <div class="border-2 border-dashed border-slate-600 rounded-lg p-4 text-center cursor-pointer hover:border-cyan-500 transition" onclick="document.getElementById('carPhoto').click()">
+                        <i class="fas fa-image text-slate-500 text-3xl block mb-2"></i>
+                        <p class="text-slate-400 text-sm">Click to upload photo</p>
+                    </div>
+                    <input type="file" id="carPhoto" class="hidden" accept="image/*" onchange="window.appEvents.previewCarPhoto()">
+                    <div id="photoPreview" class="mt-3 rounded-lg overflow-hidden hidden">
+                        <img id="photoPreviewImg" src="" alt="Preview" class="w-full max-h-32 object-cover">
+                    </div>
+                </div>
+
+                <div class="flex gap-3 pt-4">
+                    <button onclick="window.appEvents.closeAddCarModal()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2.5 rounded-lg font-bold transition">
+                        Cancel
+                    </button>
+                    <button onclick="window.appEvents.addCar()" class="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white py-2.5 rounded-lg font-bold transition flex items-center justify-center gap-2">
+                        <i class="fas fa-plus"></i>
+                        Add Vehicle
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-8 space-y-6">
+            <h3 class="text-2xl font-bold text-white flex items-center gap-2" id="confirmTitle">
+                <i class="fas fa-exclamation-circle text-yellow-400"></i>
+                Confirm Action
+            </h3>
+            <p class="text-slate-300" id="confirmMessage">Are you sure?</p>
+            <div class="flex gap-3 justify-end">
+                <button onclick="window.appEvents.confirmCancel()" class="px-4 py-2 rounded-lg border border-slate-600 text-slate-300 hover:bg-slate-700 transition">
+                    Cancel
+                </button>
+                <button onclick="window.appEvents.confirmAction()" class="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition font-bold">
+                    Confirm
+                </button>
+            </div>
         </div>
     </div>
 

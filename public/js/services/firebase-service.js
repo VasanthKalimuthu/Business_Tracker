@@ -178,9 +178,78 @@ export async function clearAllCloudData() {
   try {
     await db.ref('partners').remove();
     await db.ref('transactions').remove();
+    await db.ref('cars').remove();
     return true;
   } catch (error) {
     console.error('Error clearing cloud data:', error);
+    return false;
+  }
+}
+
+/**
+ * Subscribe to cars data changes
+ * @param {function} callback - Function to call when cars change
+ * @returns {function} Unsubscribe function
+ */
+export function subscribeToCars(callback) {
+  if (!isConnected || !db) {
+    console.warn('Firebase not connected');
+    return () => {};
+  }
+
+  const ref = db.ref('cars');
+  ref.on('value', (snapshot) => {
+    const data = snapshot.val() || [];
+    callback(Array.isArray(data) ? data : Object.values(data));
+  });
+
+  return () => ref.off();
+}
+
+/**
+ * Add a car to cloud database
+ * @param {object} car - Car object
+ * @returns {Promise<boolean>}
+ */
+export async function addCarToCloud(car) {
+  if (!isConnected || !db) return false;
+
+  try {
+    const ref = db.ref('cars');
+    const snapshot = await ref.once('value');
+    const cars = snapshot.val() || [];
+
+    if (!Array.isArray(cars)) {
+      cars = Object.values(cars);
+    }
+
+    cars.push(car);
+    await ref.set(cars);
+    return true;
+  } catch (error) {
+    console.error('Error adding car to cloud:', error);
+    return false;
+  }
+}
+
+/**
+ * Remove a car from cloud database
+ * @param {string} carId - Car ID to remove
+ * @returns {Promise<boolean>}
+ */
+export async function removeCarFromCloud(carId) {
+  if (!isConnected || !db) return false;
+
+  try {
+    const ref = db.ref('cars');
+    const snapshot = await ref.once('value');
+    const cars = snapshot.val() || [];
+
+    const filtered = (Array.isArray(cars) ? cars : Object.values(cars)).filter(car => car.id !== carId);
+    await ref.set(filtered);
+    return true;
+  } catch (error) {
+    console.error('Error removing car from cloud:', error);
     return false;
   }
 }

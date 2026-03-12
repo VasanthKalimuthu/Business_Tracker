@@ -3,12 +3,17 @@
  */
 
 /**
- * Format a number as currency
+ * Format a number as currency (Indian Rupee)
  * @param {number} amount - The amount to format
  * @returns {string} Formatted currency string
  */
 export function formatCurrency(amount) {
-  return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(amount);
 }
 
 /**

@@ -98,3 +98,44 @@ export function validateTransaction(transaction) {
     errors
   };
 }
+
+/**
+ * Validate car details
+ * @param {object} carData - { name, model, registrationNumber, photo }
+ * @returns {object} { isValid: boolean, error: string }
+ */
+export function validateCarDetails(carData) {
+  const carName = carData.name?.trim();
+  const carModel = carData.model?.trim();
+  const regNumber = carData.registrationNumber?.trim();
+
+  if (!carName) {
+    return { isValid: false, error: 'Car name is required' };
+  }
+
+  if (carName.length < 2) {
+    return { isValid: false, error: 'Car name must be at least 2 characters' };
+  }
+
+  if (carName.length > 50) {
+    return { isValid: false, error: 'Car name cannot exceed 50 characters' };
+  }
+
+  if (!carModel) {
+    return { isValid: false, error: 'Car model is required' };
+  }
+
+  if (carModel.length < 2) {
+    return { isValid: false, error: 'Car model must be at least 2 characters' };
+  }
+
+  if (!regNumber) {
+    return { isValid: false, error: 'Registration number is required' };
+  }
+
+  if (regNumber.length < 3) {
+    return { isValid: false, error: 'Registration number seems invalid' };
+  }
+
+  return { isValid: true, error: '' };
+}
