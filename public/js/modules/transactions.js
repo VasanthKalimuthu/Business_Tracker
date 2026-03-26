@@ -7,6 +7,7 @@ import { getTransactionsFromStorage, saveTransactionsToStorage } from './storage
 import { validateTransaction } from '../utils/validators.js';
 import { getCurrentDate } from '../utils/formatters.js';
 import { addTransactionToCloud, deleteTransactionFromCloud, isFirebaseConnected } from '../services/firebase-service.js';
+import { updateCarFinancials, getCarById } from './cars.js';
 
 let transactions = [];
 let transactionIdCounter = 0;
@@ -83,6 +84,13 @@ export async function addTransaction(transactionData) {
   transactions.push(transaction);
   saveTransactionsToStorage(transactions);
 
+  // Update car financials
+  if (transactionData.carId) {
+    const incomeAmount = transactionData.type === 'income' ? parseFloat(transactionData.amount) : 0;
+    const expenseAmount = transactionData.type === 'expense' ? parseFloat(transactionData.amount) : 0;
+    updateCarFinancials(transactionData.carId, incomeAmount, expenseAmount);
+  }
+
   // Sync to cloud if available
   let cloudId = null;
   if (isFirebaseConnected()) {
@@ -107,8 +115,17 @@ export async function deleteTransaction(transactionId) {
     return { success: false, error: 'Transaction not found' };
   }
 
+  const transaction = transactions[index];
+
   transactions.splice(index, 1);
   saveTransactionsToStorage(transactions);
+
+  // Reverse car financial updates
+  if (transaction.carId) {
+    const incomeAmount = transaction.type === 'income' ? -transaction.amt : 0;
+    const expenseAmount = transaction.type === 'expense' ? -transaction.amt : 0;
+    updateCarFinancials(transaction.carId, incomeAmount, expenseAmount);
+  }
 
   // Sync to cloud if available
   if (isFirebaseConnected()) {

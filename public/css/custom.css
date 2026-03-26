@@ -125,3 +125,33 @@ tr {
     font-size: 14px;
   }
 }
+
+/* Toast Notifications */
+.animated-toast {
+  opacity: 0;
+  transform: translateX(400px);
+  pointer-events: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animated-toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 640px) {
+  #notificationContainer {
+    left: 16px !important;
+    right: 16px !important;
+    bottom: 16px !important;
+    max-width: none !important;
+  }
+
+  .animated-toast {
+    transform: translateY(200px);
+  }
+
+  .animated-toast.show {
+    transform: translateY(0);
+  }
+}

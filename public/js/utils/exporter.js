@@ -11,11 +11,6 @@ import { getCarById } from '../modules/cars.js';
  * @returns {void}
  */
 export function exportAsCSV(transactions) {
-  if (transactions.length === 0) {
-    alert('No transactions to export');
-    return;
-  }
-
   let csv = 'Date,Vehicle,Description,Type,Amount (₹)\n';
 
   transactions.forEach(t => {
@@ -45,11 +40,6 @@ export function exportAsCSV(transactions) {
  * @returns {void}
  */
 export function exportAsExcel(transactions) {
-  if (transactions.length === 0) {
-    alert('No transactions to export');
-    return;
-  }
-
   let html = '<table border="1"><tr><th>Date</th><th>Vehicle</th><th>Description</th><th>Type</th><th>Amount (₹)</th></tr>';
 
   transactions.forEach(t => {
@@ -79,11 +69,6 @@ export function exportAsExcel(transactions) {
  * @returns {void}
  */
 export function exportAsPDF(transactions) {
-  if (transactions.length === 0) {
-    alert('No transactions to export');
-    return;
-  }
-
   const docTitle = `Fleet Expense Report - ${new Date().toLocaleDateString('en-IN')}`;
   
   let htmlContent = `

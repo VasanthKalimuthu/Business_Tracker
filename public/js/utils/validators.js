@@ -101,13 +101,15 @@ export function validateTransaction(transaction) {
 
 /**
  * Validate car details
- * @param {object} carData - { name, model, registrationNumber, photo }
+ * @param {object} carData - { name, model, registrationNumber, fuelType, transmission, photo }
  * @returns {object} { isValid: boolean, error: string }
  */
 export function validateCarDetails(carData) {
   const carName = carData.name?.trim();
   const carModel = carData.model?.trim();
   const regNumber = carData.registrationNumber?.trim();
+  const fuelType = carData.fuelType?.trim();
+  const transmission = carData.transmission?.trim();
 
   if (!carName) {
     return { isValid: false, error: 'Car name is required' };
@@ -135,6 +137,29 @@ export function validateCarDetails(carData) {
 
   if (regNumber.length < 3) {
     return { isValid: false, error: 'Registration number seems invalid' };
+  }
+
+  if (!fuelType) {
+    return { isValid: false, error: 'Fuel type is required' };
+  }
+
+  const validFuelTypes = ['Petrol', 'Diesel', 'Electric'];
+  if (!validFuelTypes.includes(fuelType)) {
+    return { isValid: false, error: 'Invalid fuel type selected' };
+  }
+
+  if (!transmission) {
+    return { isValid: false, error: 'Transmission type is required' };
+  }
+
+  const validTransmissions = ['Manual', 'Automatic'];
+  if (!validTransmissions.includes(transmission)) {
+    return { isValid: false, error: 'Invalid transmission type selected' };
+  }
+
+  // Electric vehicles must have automatic transmission
+  if (fuelType === 'Electric' && transmission !== 'Automatic') {
+    return { isValid: false, error: 'Electric vehicles must have Automatic transmission' };
   }
 
   return { isValid: true, error: '' };

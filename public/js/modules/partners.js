@@ -46,8 +46,9 @@ export async function addPartner(name) {
 
   const trimmed = name.trim();
 
-  // Check if partner already exists
-  if (partners.includes(trimmed)) {
+  // Check if partner already exists (case-insensitive)
+  const lowerTrimmed = trimmed.toLowerCase();
+  if (partners.some(p => p.toLowerCase() === lowerTrimmed)) {
     return { success: false, error: 'Partner already exists' };
   }
 

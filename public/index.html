@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Rental Expense Tracker</title>
+    <title>ELITESTEER - Fleet & Expense Manager</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -21,14 +21,37 @@
 <body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen text-white pb-12">
 
     <!-- Header Section -->
-    <header class="bg-gradient-to-r from-slate-900 to-slate-800 border-b border-slate-700 py-6 mb-8 shadow-xl sticky top-0 z-40">
+    <header class="bg-gradient-to-r from-slate-900 to-slate-800 border-b border-slate-700 py-4 mb-8 shadow-xl sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="bg-cyan-600 p-3 rounded-xl">
-                    <i class="fas fa-car text-xl text-white"></i>
-                </div>
+            <div class="flex items-center gap-4">
                 <div>
-                    <h1 class="text-3xl font-bold text-white">Fleet Manager</h1>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">ELITE</h1>
+                        
+                        <!-- Steering Wheel Logo with S - Inline -->
+                        <svg width="48" height="48" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-lg">
+                            <!-- Outer Steering Wheel Circle -->
+                            <circle cx="30" cy="30" r="26" stroke="#22d3ee" stroke-width="2" fill="none"/>
+                            
+                            <!-- Steering Wheel Spokes and Inner Circle -->
+                            <circle cx="30" cy="30" r="18" stroke="#0891b2" stroke-width="1.5" fill="none"/>
+                            <circle cx="30" cy="30" r="12" fill="#06b6d4"/>
+                            
+                            <!-- Steering Wheel Handle Top -->
+                            <rect x="27" y="2" width="6" height="10" rx="3" fill="#22d3ee"/>
+                            <!-- Steering Wheel Handle Bottom -->
+                            <rect x="27" y="48" width="6" height="10" rx="3" fill="#22d3ee"/>
+                            <!-- Steering Wheel Handle Left -->
+                            <rect x="2" y="27" width="10" height="6" rx="3" fill="#22d3ee"/>
+                            <!-- Steering Wheel Handle Right -->
+                            <rect x="48" y="27" width="10" height="6" rx="3" fill="#22d3ee"/>
+                            
+                            <!-- Letter "S" in the center of steering wheel -->
+                            <text x="30" y="36" font-size="20" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial, sans-serif" letter-spacing="-1">S</text>
+                        </svg>
+                        
+                        <h1 class="text-3xl font-bold text-white">TEER</h1>
+                    </div>
                     <div class="flex items-center gap-2 mt-1">
                         <span id="connDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
                         <span id="connStatus" class="text-xs font-medium text-slate-400 uppercase tracking-widest">Connecting...</span>
@@ -39,6 +62,9 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-4">
+
+        <!-- Dashboard View - Home Page -->
+        <div id="dashboardView">
 
         <!-- Dashboard Stats -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -83,6 +109,34 @@
             </div>
         </div>
 
+        <!-- Partners Management Section -->
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold flex items-center gap-3">
+                    <i class="fas fa-users text-purple-400"></i>
+                    Team Members
+                </h2>
+                <div class="flex items-center gap-3">
+                    <div>
+                        <label class="block text-xs text-slate-400 font-semibold mb-2">
+                            <i class="fas fa-filter text-purple-400 mr-1"></i>Filter by Month
+                        </label>
+                        <input type="month" id="partnerFilterMonth" class="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none text-sm" onchange="window.appEvents.filterPartnersByMonth()">
+                    </div>
+                    <button onclick="window.appEvents.openAddPartnerModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition flex items-center gap-2 mt-6">
+                        <i class="fas fa-plus"></i>
+                        Add Member
+                    </button>
+                </div>
+            </div>
+            <div id="partnersList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="text-center py-12 col-span-full text-slate-400">
+                    <i class="fas fa-inbox text-5xl mb-4 opacity-30 block"></i>
+                    <p>No team members added yet. Add your first member to get started!</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Car Management Section -->
         <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 mb-8">
             <div class="flex justify-between items-center mb-6">
@@ -104,8 +158,146 @@
             </div>
         </div>
 
-        <!-- Transaction Management Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <!-- Financial Summary -->
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold flex items-center gap-3">
+                    <i class="fas fa-chart-pie text-yellow-400"></i>
+                    Financial Summary
+                </h2>
+                <div>
+                    <label class="block text-xs text-slate-400 font-semibold mb-2">
+                        <i class="fas fa-filter text-purple-400 mr-1"></i>Filter by Month
+                    </label>
+                    <input type="month" id="financialSummaryFilterMonth" class="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none text-sm" onchange="window.appEvents.updateFinancialSummaryFilter()">
+                </div>
+            </div>
+            <div id="breakdownTable" class="space-y-3">
+                <!-- Summary will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Paid By Dropdown (Hidden by default, shown for expenses) -->
+        <div id="paidByContainer" class="hidden bg-slate-800 border border-slate-700 rounded-xl p-6 mb-8">
+            <label class="block text-sm text-slate-400 font-semibold mb-3">Paid By (Team Member)</label>
+            <select id="paidBy" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none">
+                <option value="">Select a team member...</option>
+            </select>
+        </div>
+
+        </div>
+
+        <!-- Transaction Management Section - Hidden by default, shown for specific vehicle -->
+        <div id="vehicleDetailView" class="hidden">
+            <!-- Back Button -->
+            <div class="mb-6 flex items-center gap-3">
+                <button onclick="window.appEvents.backToFleetView()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg font-semibold transition flex items-center gap-2">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Fleet
+                </button>
+                <h2 id="vehicleDetailTitle" class="text-2xl font-bold text-white"></h2>
+            </div>
+
+            <!-- Vehicle Detail Info -->
+            <div id="vehicleDetailInfo" class="bg-slate-800 border border-slate-700 rounded-xl p-6 mb-8"></div>
+
+            <!-- Add Transaction Form - Full Width -->
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 mb-8">
+                <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
+                    <i class="fas fa-plus-circle text-emerald-400"></i>
+                    Add Transaction
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3">
+                    <div>
+                        <label class="block text-sm text-slate-400 font-semibold mb-2">Type</label>
+                        <select id="vehicleTransType" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm">
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 font-semibold mb-2">Description</label>
+                        <input type="text" id="vehicleDesc" placeholder="e.g., Fuel" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 font-semibold mb-2">Amount</label>
+                        <input type="number" id="vehicleAmount" placeholder="0" min="0" step="0.01" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 font-semibold mb-2">Member</label>
+                        <select id="vehiclePaidBy" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none text-sm">
+                            <option value="">Select...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 font-semibold mb-2">Date</label>
+                        <input type="date" id="vehicleTransDate" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm">
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="window.appEvents.addVehicleTransaction()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-bold transition flex items-center justify-center gap-2 text-sm">
+                            <i class="fas fa-save"></i>
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction History with Filters & Export -->
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                    <h2 class="text-xl font-bold flex items-center gap-2">
+                        <i class="fas fa-history text-blue-400"></i>
+                        Transaction History
+                    </h2>
+                </div>
+
+                <!-- Filters & Export Row -->
+                <div class="bg-slate-700/50 rounded-lg p-2 mb-6 border border-slate-600">
+                    <div class="flex flex-wrap items-end gap-2 mb-2">
+                        <div class="min-w-[160px]">
+                            <label class="block text-xs text-slate-400 font-semibold mb-1">
+                                <i class="fas fa-filter text-purple-400 mr-1"></i>Filter
+                            </label>
+                            <input type="month" id="vehicleFilterMonth" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 py-1 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-xs" onchange="window.appEvents.filterVehicleTransactions()">
+                        </div>
+                        <button onclick="window.appEvents.downloadVehicleCSV()" class="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded-lg font-semibold text-xs transition">
+                            <i class="fas fa-file-csv"></i>
+                            CSV
+                        </button>
+                        <button onclick="window.appEvents.downloadVehicleExcel()" class="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded-lg font-semibold text-xs transition">
+                            <i class="fas fa-file-excel"></i>
+                            Excel
+                        </button>
+                        <button onclick="window.appEvents.downloadVehiclePDF()" class="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded-lg font-semibold text-xs transition">
+                            <i class="fas fa-file-pdf"></i>
+                            PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Transaction Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="border-b border-slate-700">
+                            <tr class="text-slate-400 uppercase text-xs font-bold">
+                                <th class="pb-3 px-4">Date</th>
+                                <th class="pb-3 px-4">Description</th>
+                                <th class="pb-3 px-4">Type</th>
+                                <th class="pb-3 px-4">Member</th>
+                                <th class="pb-3 px-4">Amount</th>
+                                <th class="pb-3 px-4">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vehicleHistoryTable" class="divide-y divide-slate-700">
+                            <!-- Transactions will be rendered here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Home View - Transaction Management Section - Hidden when vehicle is selected -->
+        <div id="homeTransactionView" class="hidden">
             
             <!-- New Transaction Form -->
             <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
@@ -113,36 +305,44 @@
                     <i class="fas fa-plus-circle text-emerald-400"></i>
                     New Transaction
                 </h2>
-                <div class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-sm text-slate-400 font-semibold mb-2">Vehicle</label>
-                        <select id="carSelect" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                        <select id="carSelect" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm">
                             <option value="">Select a vehicle...</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-sm text-slate-400 font-semibold mb-2">Type</label>
-                        <select id="transType" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none">
-                            <option value="income">Income (₹)</option>
-                            <option value="expense">Expense (₹)</option>
+                        <select id="transType" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm">
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 font-semibold mb-2">Member</label>
+                        <select id="paidBy" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none text-sm">
+                            <option value="">Select...</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-sm text-slate-400 font-semibold mb-2">Description</label>
-                        <input type="text" id="desc" placeholder="e.g., Fuel, Maintenance, Rental" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
+                        <input type="text" id="desc" placeholder="e.g., Fuel" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 text-sm">
                     </div>
                     <div>
                         <label class="block text-sm text-slate-400 font-semibold mb-2">Amount</label>
-                        <input type="number" id="amount" placeholder="0" min="0" step="0.01" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
+                        <input type="number" id="amount" placeholder="0" min="0" step="0.01" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 text-sm">
                     </div>
                     <div>
                         <label class="block text-sm text-slate-400 font-semibold mb-2">Date</label>
-                        <input type="date" id="transDate" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                        <input type="date" id="transDate" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm">
                     </div>
-                    <button onclick="window.appEvents.addTransaction()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg font-bold transition flex items-center justify-center gap-2 mt-6">
-                        <i class="fas fa-save"></i>
-                        Record Transaction
-                    </button>
+                    <div class="lg:col-span-3">
+                        <button onclick="window.appEvents.addTransaction()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-bold transition flex items-center justify-center gap-2">
+                            <i class="fas fa-save"></i>
+                            Record Transaction
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -153,53 +353,42 @@
                         <i class="fas fa-filter text-purple-400"></i>
                         Filters & Export
                     </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
                         <div>
-                            <label class="block text-sm text-slate-400 font-semibold mb-2">Filter by Month</label>
-                            <input type="month" id="filterMonth" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none" onchange="window.appEvents.filterByMonth()">
+                            <label class="block text-xs text-slate-400 font-semibold mb-1">Filter Month</label>
+                            <input type="month" id="filterMonth" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm" onchange="window.appEvents.filterByMonth()">
                         </div>
                         <div>
-                            <label class="block text-sm text-slate-400 font-semibold mb-2">Filter by Vehicle</label>
-                            <select id="filterCar" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none" onchange="window.appEvents.filterByMonth()">
+                            <label class="block text-xs text-slate-400 font-semibold mb-1">Filter Vehicle</label>
+                            <select id="filterCar" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm" onchange="window.appEvents.filterByMonth()">
                                 <option value="">All Vehicles</option>
                             </select>
                         </div>
                     </div>
-                    <div class="flex flex-wrap gap-3">
-                        <button onclick="window.appEvents.downloadCSV()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition">
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="window.appEvents.downloadCSV()" class="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded-lg font-semibold text-xs transition">
                             <i class="fas fa-file-csv"></i>
                             CSV
                         </button>
-                        <button onclick="window.appEvents.downloadExcel()" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition">
+                        <button onclick="window.appEvents.downloadExcel()" class="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded-lg font-semibold text-xs transition">
                             <i class="fas fa-file-excel"></i>
                             Excel
                         </button>
-                        <button onclick="window.appEvents.downloadPDF()" class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold text-sm transition">
+                        <button onclick="window.appEvents.downloadPDF()" class="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded-lg font-semibold text-xs transition">
                             <i class="fas fa-file-pdf"></i>
                             PDF
                         </button>
-                        <button onclick="window.appEvents.confirmReset()" class="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-200 px-4 py-2 rounded-lg font-semibold text-sm transition ml-auto">
+                        <button onclick="window.appEvents.confirmReset()" class="flex items-center gap-1 bg-slate-700 hover:bg-slate-600 text-slate-200 px-2 py-1 rounded-lg font-semibold text-xs transition ml-auto">
                             <i class="fas fa-trash-alt"></i>
-                            Reset All Data
+                            Reset
                         </button>
-                    </div>
-                </div>
-
-                <!-- Financial Summary -->
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
-                    <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
-                        <i class="fas fa-chart-pie text-yellow-400"></i>
-                        Financial Summary
-                    </h2>
-                    <div id="breakdownTable" class="space-y-3">
-                        <!-- Summary will be rendered here -->
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Activity Log -->
-        <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+        <div id="activityLog" class="hidden bg-slate-800 border border-slate-700 rounded-xl p-6">
             <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
                 <i class="fas fa-history text-blue-400"></i>
                 Transaction History
@@ -212,6 +401,7 @@
                             <th class="pb-3 px-4">Vehicle</th>
                             <th class="pb-3 px-4">Description</th>
                             <th class="pb-3 px-4">Type</th>
+                            <th class="pb-3 px-4">Member</th>
                             <th class="pb-3 px-4">Amount</th>
                             <th class="pb-3 px-4">Action</th>
                         </tr>
@@ -224,10 +414,42 @@
         </div>
     </main>
 
-    <!-- Add Car Modal -->
-    <div id="addCarModal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+    <!-- Add Partner Modal -->
+    <div id="addPartnerModal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
         <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-md w-full p-8 space-y-6">
             <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold flex items-center gap-2">
+                    <i class="fas fa-user-plus text-purple-400"></i>
+                    Add Team Member
+                </h2>
+                <button onclick="window.appEvents.closeAddPartnerModal()" class="text-slate-400 hover:text-white text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm text-slate-300 font-semibold mb-2">Member Name</label>
+                    <input type="text" id="newPartnerName" placeholder="e.g., John Doe" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none placeholder-slate-500">
+                </div>
+
+                <div class="flex gap-3 pt-4">
+                    <button onclick="window.appEvents.closeAddPartnerModal()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2.5 rounded-lg font-bold transition">
+                        Cancel
+                    </button>
+                    <button onclick="window.appEvents.addPartnerFromModal()" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2.5 rounded-lg font-bold transition flex items-center justify-center gap-2">
+                        <i class="fas fa-plus"></i>
+                        Add Member
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Car Modal -->
+    <div id="addCarModal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-md w-full max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-8 border-b border-slate-700 flex-shrink-0">
                 <h2 class="text-2xl font-bold flex items-center gap-2">
                     <i class="fas fa-car text-cyan-400"></i>
                     Add New Vehicle
@@ -237,43 +459,139 @@
                 </button>
             </div>
 
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm text-slate-300 font-semibold mb-2">Vehicle Name</label>
-                    <input type="text" id="carName" placeholder="e.g., Honda City - White" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
-                </div>
-
-                <div>
-                    <label class="block text-sm text-slate-300 font-semibold mb-2">Model</label>
-                    <input type="text" id="carModel" placeholder="e.g., Honda City 2022" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
-                </div>
-
-                <div>
-                    <label class="block text-sm text-slate-300 font-semibold mb-2">Registration Number</label>
-                    <input type="text" id="carRego" placeholder="e.g., MH03AB1234" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 uppercase">
-                </div>
-
-                <div>
-                    <label class="block text-sm text-slate-300 font-semibold mb-2">Vehicle Photo</label>
-                    <div class="border-2 border-dashed border-slate-600 rounded-lg p-4 text-center cursor-pointer hover:border-cyan-500 transition" onclick="document.getElementById('carPhoto').click()">
-                        <i class="fas fa-image text-slate-500 text-3xl block mb-2"></i>
-                        <p class="text-slate-400 text-sm">Click to upload photo</p>
+            <div class="flex-1 overflow-y-auto p-8">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm text-slate-300 font-semibold mb-2">Vehicle Name</label>
+                        <input type="text" id="carName" placeholder="e.g., Honda City - White" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
                     </div>
-                    <input type="file" id="carPhoto" class="hidden" accept="image/*" onchange="window.appEvents.previewCarPhoto()">
-                    <div id="photoPreview" class="mt-3 rounded-lg overflow-hidden hidden">
-                        <img id="photoPreviewImg" src="" alt="Preview" class="w-full max-h-32 object-cover">
+
+                    <div>
+                        <label class="block text-sm text-slate-300 font-semibold mb-2">Model</label>
+                        <input type="text" id="carModel" placeholder="e.g., Honda City 2022" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-slate-300 font-semibold mb-2">Registration Number</label>
+                        <input type="text" id="carRego" placeholder="e.g., MH03AB1234" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 uppercase">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-slate-300 font-semibold mb-2">Fuel Type</label>
+                        <select id="carFuelType" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none" onchange="window.appEvents.updateTransmissionOptions()">
+                            <option value="">Select fuel type...</option>
+                            <option value="Petrol">Petrol</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Electric">Electric</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-slate-300 font-semibold mb-2">Transmission Type</label>
+                        <select id="carTransmission" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                            <option value="">Select transmission...</option>
+                            <option value="Manual">Manual</option>
+                            <option value="Automatic">Automatic</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-slate-300 font-semibold mb-2">Vehicle Photo</label>
+                        <div class="border-2 border-dashed border-slate-600 rounded-lg p-4 text-center cursor-pointer hover:border-cyan-500 transition" onclick="document.getElementById('carPhoto').click()">
+                            <i class="fas fa-image text-slate-500 text-3xl block mb-2"></i>
+                            <p class="text-slate-400 text-sm">Click to upload photo</p>
+                        </div>
+                        <input type="file" id="carPhoto" class="hidden" accept="image/*" onchange="window.appEvents.previewCarPhoto()">
+                        <div id="photoPreview" class="mt-3 rounded-lg overflow-hidden hidden">
+                            <img id="photoPreviewImg" src="" alt="Preview" class="w-full max-h-32 object-cover">
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="flex gap-3 pt-4">
-                    <button onclick="window.appEvents.closeAddCarModal()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2.5 rounded-lg font-bold transition">
-                        Cancel
-                    </button>
-                    <button onclick="window.appEvents.addCar()" class="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white py-2.5 rounded-lg font-bold transition flex items-center justify-center gap-2">
-                        <i class="fas fa-plus"></i>
-                        Add Vehicle
-                    </button>
+            <div class="flex gap-3 p-8 border-t border-slate-700 flex-shrink-0">
+                <button onclick="window.appEvents.closeAddCarModal()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2.5 rounded-lg font-bold transition">
+                    Cancel
+                </button>
+                <button onclick="window.appEvents.addCar()" class="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white py-2.5 rounded-lg font-bold transition flex items-center justify-center gap-2">
+                    <i class="fas fa-plus"></i>
+                    Add Vehicle
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Car Modal -->
+    <div id="editCarModal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-md w-full max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-8 border-b border-slate-700 flex-shrink-0">
+                <h2 class="text-2xl font-bold flex items-center gap-2">
+                    <i class="fas fa-edit text-cyan-400"></i>
+                    Edit Vehicle
+                </h2>
+                <button onclick="window.appEvents.closeEditCarModal()" class="text-slate-400 hover:text-white text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-8">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm text-slate-300 font-semibold mb-2">Vehicle Name</label>
+                        <input type="text" id="editCarName" placeholder="e.g., Honda City - White" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-slate-300 font-semibold mb-2">Model</label>
+                        <input type="text" id="editCarModel" placeholder="e.g., Honda City 2022" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-slate-300 font-semibold mb-2">Registration Number</label>
+                        <input type="text" id="editCarRego" placeholder="e.g., MH03AB1234" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 uppercase">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-slate-300 font-semibold mb-2">Fuel Type</label>
+                        <select id="editCarFuelType" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none" onchange="window.appEvents.updateEditTransmissionOptions()">
+                            <option value="">Select fuel type...</option>
+                            <option value="Petrol">Petrol</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Electric">Electric</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-slate-300 font-semibold mb-2">Transmission Type</label>
+                        <select id="editCarTransmission" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                            <option value="">Select transmission...</option>
+                            <option value="Manual">Manual</option>
+                            <option value="Automatic">Automatic</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-slate-300 font-semibold mb-2">Vehicle Photo</label>
+                        <div class="border-2 border-dashed border-slate-600 rounded-lg p-4 text-center cursor-pointer hover:border-cyan-500 transition" onclick="document.getElementById('editCarPhoto').click()">
+                            <i class="fas fa-image text-slate-500 text-3xl block mb-2"></i>
+                            <p class="text-slate-400 text-sm">Click to update photo</p>
+                        </div>
+                        <input type="file" id="editCarPhoto" class="hidden" accept="image/*" onchange="window.appEvents.previewEditCarPhoto()">
+                        <div id="editPhotoPreview" class="mt-3 rounded-lg overflow-hidden hidden">
+                            <img id="editPhotoPreviewImg" src="" alt="Preview" class="w-full max-h-32 object-cover">
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <div class="flex gap-3 p-8 border-t border-slate-700 flex-shrink-0">
+                <button onclick="window.appEvents.closeEditCarModal()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2.5 rounded-lg font-bold transition">
+                    Cancel
+                </button>
+                <button onclick="window.appEvents.saveEditCar()" class="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white py-2.5 rounded-lg font-bold transition flex items-center justify-center gap-2">
+                    <i class="fas fa-save"></i>
+                    Save Changes
+                </button>
             </div>
         </div>
     </div>
@@ -296,6 +614,36 @@
             </div>
         </div>
     </div>
+
+    <!-- Transaction Details Modal -->
+    <div id="transactionDetailsModal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-md w-full max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-8 border-b border-slate-700 flex-shrink-0">
+                <h2 class="text-2xl font-bold flex items-center gap-2">
+                    <i class="fas fa-receipt text-cyan-400"></i>
+                    Transaction Details
+                </h2>
+                <button onclick="window.appEvents.closeTransactionDetailsModal()" class="text-slate-400 hover:text-white text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-8">
+                <div id="transactionDetailsContent" class="space-y-4">
+                    <!-- Transaction details will be rendered here -->
+                </div>
+            </div>
+
+            <div class="flex gap-3 p-8 border-t border-slate-700 flex-shrink-0">
+                <button onclick="window.appEvents.closeTransactionDetailsModal()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2.5 rounded-lg font-bold transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="notificationContainer" class="fixed bottom-6 right-6 z-50 space-y-3 max-w-md"></div>
 
     <!-- Main Application Script (ES6 Module) -->
     <script type="module" src="js/main.js"></script>

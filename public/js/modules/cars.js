@@ -44,7 +44,7 @@ export function setCars(newCars) {
 
 /**
  * Add a new car
- * @param {object} carData - { name, model, registrationNumber, photo (optional) }
+ * @param {object} carData - { name, model, registrationNumber, fuelType, transmission, photo (optional) }
  * @returns {Promise<object>} { success: boolean, error: string, carId: string }
  */
 export async function addCar(carData) {
@@ -58,6 +58,8 @@ export async function addCar(carData) {
     name: carData.name.trim(),
     model: carData.model.trim(),
     registrationNumber: carData.registrationNumber.trim().toUpperCase(),
+    fuelType: carData.fuelType.trim(),
+    transmission: carData.transmission.trim(),
     photo: carData.photo || null,
     createdDate: new Date().toISOString(),
     totalIncome: 0,
@@ -114,6 +116,8 @@ export function updateCar(carId, updates) {
   if (updates.name) car.name = updates.name.trim();
   if (updates.model) car.model = updates.model.trim();
   if (updates.registrationNumber) car.registrationNumber = updates.registrationNumber.trim().toUpperCase();
+  if (updates.fuelType) car.fuelType = updates.fuelType;
+  if (updates.transmission) car.transmission = updates.transmission;
   if (updates.photo) car.photo = updates.photo;
   if (updates.status) car.status = updates.status;
 
