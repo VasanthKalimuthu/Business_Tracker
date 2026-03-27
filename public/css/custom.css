@@ -155,3 +155,171 @@ tr {
     transform: translateY(0);
   }
 }
+
+/* Elite Vehicle Details Styling */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes floatingGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(34, 197, 238, 0.3), 0 0 40px rgba(139, 92, 246, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(34, 197, 238, 0.4), 0 0 50px rgba(139, 92, 246, 0.3);
+  }
+}
+
+/* Vehicle Image Container Elite Effect */
+.vehicle-image-elite {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(34, 197, 238, 0.3) inset;
+  animation: floatingGlow 3s ease-in-out infinite;
+}
+
+.vehicle-image-elite::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  animation: shimmer 3s infinite;
+}
+
+.vehicle-image-elite img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.vehicle-image-elite img:hover {
+  transform: scale(1.05);
+}
+
+.vehicle-image-elite:hover::before {
+  animation: shimmer 1.5s infinite;
+}
+
+/* Vehicle Header Elite */
+.vehicle-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.8) 100%);
+  border-radius: 1rem;
+  border: 1px solid rgba(34, 197, 238, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.vehicle-detail-header img,
+.vehicle-detail-header > div:first-child {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 20px rgba(34, 197, 238, 0.2);
+  transition: all 0.3s ease;
+}
+
+.vehicle-detail-header:hover img,
+.vehicle-detail-header:hover > div:first-child {
+  box-shadow: 0 8px 30px rgba(34, 197, 238, 0.35);
+}
+
+/* Collapsible Sections */
+.collapse-content {
+  max-height: 9999px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+  opacity: 1;
+}
+
+.collapse-content.collapsed {
+  max-height: 0 !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+  display: none !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.collapse-toggle {
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+}
+
+.collapse-toggle:hover {
+  color: #22d3ee;
+}
+
+.collapse-toggle i {
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.collapse-toggle.collapsed i {
+  transform: rotate(-90deg);
+}
+
+/* Collapsed Section Styling - Reduced Height */
+
+/* Responsive Utilities */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+  
+  /* Reduce padding on small screens */
+  .overflow-x-auto {
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+/* Ensure tables don't overflow */
+table {
+  min-width: 100%;
+}
+
+table th,
+table td {
+  white-space: nowrap;
+}
+
+/* Responsive text truncation */
+.line-clamp-1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+/* Ensure flex items don't shrink beyond readable size */
+.flex > * {
+  min-width: 0;
+}
+
+/* Responsive header */
+@media (max-width: 640px) {
+  header {
+    py-2;
+  }
+}
+

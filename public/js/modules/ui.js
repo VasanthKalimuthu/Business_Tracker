@@ -166,9 +166,9 @@ export function renderPaidByDropdown() {
   const partners = getPartners();
   const paidBySelect = document.getElementById('paidBy');
 
-  paidBySelect.innerHTML = partners
-    .map(p => `<option value="${p}">${p}</option>`)
-    .join('');
+  paidBySelect.innerHTML = '<option value="">Select...</option>' +
+    '<option value="common"><i class="fas fa-users"></i> Common (All Members)</option>' +
+    partners.map(p => `<option value="${p}">${p}</option>`).join('');
 }
 
 /**
@@ -396,6 +396,7 @@ export function renderVehiclePaidByDropdown() {
 
   if (vehiclePaidBySelect) {
     vehiclePaidBySelect.innerHTML = '<option value="">Select a team member...</option>' +
+      '<option value="common"><i class="fas fa-users"></i> Common (All Members)</option>' +
       partners.map(p => `<option value="${p}">${p}</option>`).join('');
   }
 }
@@ -463,7 +464,7 @@ export function renderTransactionHistory() {
               ${t.type === 'income' ? 'Income' : 'Expense'}
             </span>
           </td>
-          <td class="px-4 py-3 text-sm text-slate-300">${t.paidBy || '—'}</td>
+          <td class="px-4 py-3 text-sm ${t.paidBy === 'common' ? 'text-purple-400 font-semibold' : 'text-slate-300'}">${t.paidBy === 'common' ? '<i class="fas fa-users mr-1"></i>Common' : (t.paidBy || '—')}</td>
           <td class="px-4 py-3 text-sm font-bold text-right ${t.type === 'income' ? 'text-emerald-400' : 'text-rose-400'}">
             ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amt)}
           </td>  
@@ -483,6 +484,9 @@ export function renderTransactionHistory() {
  * (Call this after any data change)
  */
 export function renderAll() {
+  // Scroll to top when re-rendering
+  window.scrollTo(0, 0);
+  
   renderFinancialSummary();
   renderPartners();
   renderPaidByDropdown();

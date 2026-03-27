@@ -21,15 +21,15 @@
 <body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen text-white pb-12">
 
     <!-- Header Section -->
-    <header class="bg-gradient-to-r from-slate-900 to-slate-800 border-b border-slate-700 py-4 mb-8 shadow-xl sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+    <header class="bg-gradient-to-r from-slate-900 to-slate-800 border-b border-slate-700 py-2 sm:py-3 mb-4 sm:mb-8 shadow-xl sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-3 sm:px-4 flex justify-between items-center">
             <div class="flex items-center gap-4">
                 <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">ELITE</h1>
+                    <div class="flex items-center gap-1 sm:gap-2">
+                        <h1 class="text-lg sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">ELITE</h1>
                         
                         <!-- Steering Wheel Logo with S - Inline -->
-                        <svg width="48" height="48" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-lg">
+                        <svg width="32" height="32" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-lg sm:w-10 sm:h-10">
                             <!-- Outer Steering Wheel Circle -->
                             <circle cx="30" cy="30" r="26" stroke="#22d3ee" stroke-width="2" fill="none"/>
                             
@@ -50,82 +50,82 @@
                             <text x="30" y="36" font-size="20" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial, sans-serif" letter-spacing="-1">S</text>
                         </svg>
                         
-                        <h1 class="text-3xl font-bold text-white">TEER</h1>
+                        <h1 class="text-lg sm:text-2xl font-bold text-white">TEER</h1>
                     </div>
-                    <div class="flex items-center gap-2 mt-1">
+                    <div class="flex items-center gap-1 sm:gap-2 mt-0.5">
                         <span id="connDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                        <span id="connStatus" class="text-xs font-medium text-slate-400 uppercase tracking-widest">Connecting...</span>
+                        <span id="connStatus" class="text-xs font-medium text-slate-400 uppercase tracking-widest hidden sm:inline">Connecting...</span>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4">
+    <main class="max-w-7xl mx-auto px-3 sm:px-4">
 
         <!-- Dashboard View - Home Page -->
         <div id="dashboardView">
 
         <!-- Dashboard Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 hover:border-emerald-600 transition">
-                <div class="flex items-center justify-between">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-6 hover:border-emerald-600 transition">
+                <div class="flex items-center justify-between gap-3">
                     <div>
-                        <p class="text-slate-400 text-sm uppercase font-semibold tracking-wide">Total Income</p>
-                        <p id="totalIncome" class="text-3xl font-bold text-emerald-400 mt-2">₹0</p>
+                        <p class="text-slate-400 text-xs sm:text-sm uppercase font-semibold tracking-wide">Total Income</p>
+                        <p id="totalIncome" class="text-xl sm:text-3xl font-bold text-emerald-400 mt-1 sm:mt-2">₹0</p>
                     </div>
-                    <i class="fas fa-arrow-up-right text-emerald-500 text-3xl opacity-20"></i>
+                    <i class="fas fa-arrow-up-right text-emerald-500 text-xl sm:text-3xl opacity-20 flex-shrink-0"></i>
                 </div>
             </div>
 
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 hover:border-rose-600 transition">
-                <div class="flex items-center justify-between">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-6 hover:border-rose-600 transition">
+                <div class="flex items-center justify-between gap-3">
                     <div>
-                        <p class="text-slate-400 text-sm uppercase font-semibold tracking-wide">Total Expenses</p>
-                        <p id="totalExpense" class="text-3xl font-bold text-rose-400 mt-2">₹0</p>
+                        <p class="text-slate-400 text-xs sm:text-sm uppercase font-semibold tracking-wide">Total Expenses</p>
+                        <p id="totalExpense" class="text-xl sm:text-3xl font-bold text-rose-400 mt-1 sm:mt-2">₹0</p>
                     </div>
-                    <i class="fas fa-arrow-down-left text-rose-500 text-3xl opacity-20"></i>
+                    <i class="fas fa-arrow-down-left text-rose-500 text-xl sm:text-3xl opacity-20 flex-shrink-0"></i>
                 </div>
             </div>
 
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 hover:border-blue-600 transition">
-                <div class="flex items-center justify-between">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-6 hover:border-blue-600 transition">
+                <div class="flex items-center justify-between gap-3">
                     <div>
-                        <p class="text-slate-400 text-sm uppercase font-semibold tracking-wide">Net Profit</p>
-                        <p id="netProfit" class="text-3xl font-bold text-blue-400 mt-2">₹0</p>
+                        <p class="text-slate-400 text-xs sm:text-sm uppercase font-semibold tracking-wide">Net Profit</p>
+                        <p id="netProfit" class="text-xl sm:text-3xl font-bold text-blue-400 mt-1 sm:mt-2">₹0</p>
                     </div>
-                    <i class="fas fa-chart-line text-blue-500 text-3xl opacity-20"></i>
+                    <i class="fas fa-chart-line text-blue-500 text-xl sm:text-3xl opacity-20 flex-shrink-0"></i>
                 </div>
             </div>
 
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 hover:border-cyan-600 transition">
-                <div class="flex items-center justify-between">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-6 hover:border-cyan-600 transition">
+                <div class="flex items-center justify-between gap-3">
                     <div>
-                        <p class="text-slate-400 text-sm uppercase font-semibold tracking-wide">Total Cars</p>
-                        <p id="carCount" class="text-3xl font-bold text-cyan-400 mt-2">0</p>
+                        <p class="text-slate-400 text-xs sm:text-sm uppercase font-semibold tracking-wide">Total Cars</p>
+                        <p id="carCount" class="text-xl sm:text-3xl font-bold text-cyan-400 mt-1 sm:mt-2">0</p>
                     </div>
-                    <i class="fas fa-car text-cyan-500 text-3xl opacity-20"></i>
+                    <i class="fas fa-car text-cyan-500 text-xl sm:text-3xl opacity-20 flex-shrink-0"></i>
                 </div>
             </div>
         </div>
 
         <!-- Partners Management Section -->
-        <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 mb-8">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold flex items-center gap-3">
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-8 mb-6 sm:mb-8">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-0">
+                <h2 class="text-lg sm:text-2xl font-bold flex items-center gap-2 sm:gap-3">
                     <i class="fas fa-users text-purple-400"></i>
                     Team Members
                 </h2>
-                <div class="flex items-center gap-3">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-3">
                     <div>
-                        <label class="block text-xs text-slate-400 font-semibold mb-2">
+                        <label class="block text-xs text-slate-400 font-semibold mb-1">
                             <i class="fas fa-filter text-purple-400 mr-1"></i>Filter by Month
                         </label>
-                        <input type="month" id="partnerFilterMonth" class="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none text-sm" onchange="window.appEvents.filterPartnersByMonth()">
+                        <input type="month" id="partnerFilterMonth" class="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none text-sm w-full sm:w-auto" onchange="window.appEvents.filterPartnersByMonth()">
                     </div>
-                    <button onclick="window.appEvents.openAddPartnerModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition flex items-center gap-2 mt-6">
+                    <button onclick="window.appEvents.openAddPartnerModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2 text-sm sm:text-base">
                         <i class="fas fa-plus"></i>
-                        Add Member
+                        <span>Add Member</span>
                     </button>
                 </div>
             </div>
@@ -138,15 +138,15 @@
         </div>
 
         <!-- Car Management Section -->
-        <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 mb-8">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold flex items-center gap-3">
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-8 mb-6 sm:mb-8">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
+                <h2 class="text-lg sm:text-2xl font-bold flex items-center gap-2 sm:gap-3">
                     <i class="fas fa-garage text-cyan-400"></i>
                     Fleet Vehicles
                 </h2>
-                <button onclick="window.appEvents.openAddCarModal()" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-lg font-semibold transition flex items-center gap-2">
+                <button onclick="window.appEvents.openAddCarModal()" class="bg-cyan-600 hover:bg-cyan-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto">
                     <i class="fas fa-plus"></i>
-                    Add Vehicle
+                    <span>Add Vehicle</span>
                 </button>
             </div>
             <div id="carsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -159,17 +159,17 @@
         </div>
 
         <!-- Financial Summary -->
-        <div class="bg-slate-800 border border-slate-700 rounded-xl p-8 mb-8">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold flex items-center gap-3">
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-8 mb-6 sm:mb-8">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
+                <h2 class="text-lg sm:text-2xl font-bold flex items-center gap-2 sm:gap-3">
                     <i class="fas fa-chart-pie text-yellow-400"></i>
                     Financial Summary
                 </h2>
                 <div>
-                    <label class="block text-xs text-slate-400 font-semibold mb-2">
+                    <label class="block text-xs text-slate-400 font-semibold mb-1">
                         <i class="fas fa-filter text-purple-400 mr-1"></i>Filter by Month
                     </label>
-                    <input type="month" id="financialSummaryFilterMonth" class="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none text-sm" onchange="window.appEvents.updateFinancialSummaryFilter()">
+                    <input type="month" id="financialSummaryFilterMonth" class="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none text-sm w-full sm:w-auto" onchange="window.appEvents.updateFinancialSummaryFilter()">
                 </div>
             </div>
             <div id="breakdownTable" class="space-y-3">
@@ -178,7 +178,7 @@
         </div>
 
         <!-- Paid By Dropdown (Hidden by default, shown for expenses) -->
-        <div id="paidByContainer" class="hidden bg-slate-800 border border-slate-700 rounded-xl p-6 mb-8">
+        <div id="paidByContainer" class="hidden bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
             <label class="block text-sm text-slate-400 font-semibold mb-3">Paid By (Team Member)</label>
             <select id="paidBy" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none">
                 <option value="">Select a team member...</option>
@@ -189,52 +189,55 @@
 
         <!-- Transaction Management Section - Hidden by default, shown for specific vehicle -->
         <div id="vehicleDetailView" class="hidden">
-            <!-- Back Button -->
-            <div class="mb-6 flex items-center gap-3">
-                <button onclick="window.appEvents.backToFleetView()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg font-semibold transition flex items-center gap-2">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Fleet
-                </button>
-                <h2 id="vehicleDetailTitle" class="text-2xl font-bold text-white"></h2>
+            <!-- Back Button - Sticky Header with Vehicle Profile -->
+            <div class="sticky top-[56px] sm:top-[72px] z-30 bg-gradient-to-r from-slate-900 to-slate-800 border-b border-slate-700 mb-4 sm:mb-6 py-2 sm:py-3 px-3 sm:px-4 -mx-3 sm:-mx-4 backdrop-blur-sm bg-opacity-95">
+                <div class="flex items-center gap-2 sm:gap-3 overflow-hidden">
+                    <button onclick="window.appEvents.backToFleetView()" class="bg-slate-700 hover:bg-slate-600 text-white p-2 rounded-lg transition group relative flex-shrink-0" title="Back to Fleet">
+                        <i class="fas fa-arrow-left text-lg"></i>
+                        <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-slate-900 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition pointer-events-none">Back to Fleet</span>
+                    </button>
+                    <div id="vehicleProfileIcon" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-slate-600 to-slate-700 flex-shrink-0 border-2 border-cyan-400 shadow-lg flex items-center justify-center overflow-hidden"><i class="fas fa-car text-slate-400 text-sm"></i></div>
+                    <h2 id="vehicleDetailTitle" class="text-lg sm:text-xl font-bold text-white flex items-center gap-0 overflow-hidden line-clamp-1"></h2>
+                </div>
             </div>
 
             <!-- Vehicle Detail Info -->
-            <div id="vehicleDetailInfo" class="bg-slate-800 border border-slate-700 rounded-xl p-6 mb-8"></div>
+            <div id="vehicleDetailInfo" class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8 overflow-hidden"></div>
 
             <!-- Add Transaction Form - Full Width -->
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 mb-8">
-                <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
+                <h2 class="text-lg sm:text-xl font-bold flex items-center gap-2 mb-4 sm:mb-6">
                     <i class="fas fa-plus-circle text-emerald-400"></i>
                     Add Transaction
                 </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-2 sm:gap-3">
                     <div>
-                        <label class="block text-sm text-slate-400 font-semibold mb-2">Type</label>
-                        <select id="vehicleTransType" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 font-semibold mb-1">Type</label>
+                        <select id="vehicleTransType" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 sm:px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-xs sm:text-sm">
                             <option value="income">Income</option>
                             <option value="expense">Expense</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm text-slate-400 font-semibold mb-2">Description</label>
-                        <input type="text" id="vehicleDesc" placeholder="e.g., Fuel" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 font-semibold mb-1">Description</label>
+                        <input type="text" id="vehicleDesc" placeholder="e.g., Fuel" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 sm:px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 text-xs sm:text-sm">
                     </div>
                     <div>
-                        <label class="block text-sm text-slate-400 font-semibold mb-2">Amount</label>
-                        <input type="number" id="vehicleAmount" placeholder="0" min="0" step="0.01" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 font-semibold mb-1">Amount</label>
+                        <input type="number" id="vehicleAmount" placeholder="0" min="0" step="0.01" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 sm:px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 text-xs sm:text-sm">
                     </div>
                     <div>
-                        <label class="block text-sm text-slate-400 font-semibold mb-2">Member</label>
-                        <select id="vehiclePaidBy" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 font-semibold mb-1">Member</label>
+                        <select id="vehiclePaidBy" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 sm:px-3 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none text-xs sm:text-sm">
                             <option value="">Select...</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm text-slate-400 font-semibold mb-2">Date</label>
-                        <input type="date" id="vehicleTransDate" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 font-semibold mb-1">Date</label>
+                        <input type="date" id="vehicleTransDate" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 sm:px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-xs sm:text-sm">
                     </div>
                     <div class="flex items-end">
-                        <button onclick="window.appEvents.addVehicleTransaction()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-bold transition flex items-center justify-center gap-2 text-sm">
+                        <button onclick="window.appEvents.addVehicleTransaction()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-bold transition flex items-center justify-center gap-2 text-xs sm:text-sm">
                             <i class="fas fa-save"></i>
                             Save
                         </button>
@@ -243,52 +246,52 @@
             </div>
 
             <!-- Transaction History with Filters & Export -->
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-                    <h2 class="text-xl font-bold flex items-center gap-2">
+            <div id="vehicleTransactionHistoryContainer" class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4 sm:mb-6 overflow-hidden">
+                    <h2 class="text-lg sm:text-xl font-bold flex items-center gap-2">
                         <i class="fas fa-history text-blue-400"></i>
                         Transaction History
                     </h2>
+                    <button class="collapse-toggle p-2 rounded-lg hover:bg-slate-700 transition" onclick="this.parentElement.parentElement.querySelectorAll('.collapse-content').forEach(el => el.classList.toggle('collapsed')); this.classList.toggle('collapsed');" title="Toggle Transaction Details">
+                        <i class="fas fa-chevron-down text-cyan-400 text-lg"></i>
+                    </button>
                 </div>
 
                 <!-- Filters & Export Row -->
-                <div class="bg-slate-700/50 rounded-lg p-2 mb-6 border border-slate-600">
-                    <div class="flex flex-wrap items-end gap-2 mb-2">
-                        <div class="min-w-[160px]">
+                <div class="bg-slate-700/50 rounded-lg p-2 sm:p-3 mb-3 sm:mb-6 border border-slate-600 collapse-content">
+                    <div class="flex flex-wrap items-end gap-1 sm:gap-2 mb-2">
+                        <div class="min-w-[140px]">
                             <label class="block text-xs text-slate-400 font-semibold mb-1">
                                 <i class="fas fa-filter text-purple-400 mr-1"></i>Filter
                             </label>
                             <input type="month" id="vehicleFilterMonth" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 py-1 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-xs" onchange="window.appEvents.filterVehicleTransactions()">
                         </div>
                         <button onclick="window.appEvents.downloadVehicleCSV()" class="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded-lg font-semibold text-xs transition">
-                            <i class="fas fa-file-csv"></i>
-                            CSV
+                            <i class="fas fa-file-csv hidden sm:inline"></i>CSV
                         </button>
                         <button onclick="window.appEvents.downloadVehicleExcel()" class="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded-lg font-semibold text-xs transition">
-                            <i class="fas fa-file-excel"></i>
-                            Excel
+                            <i class="fas fa-file-excel hidden sm:inline"></i>Excel
                         </button>
                         <button onclick="window.appEvents.downloadVehiclePDF()" class="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded-lg font-semibold text-xs transition">
-                            <i class="fas fa-file-pdf"></i>
-                            PDF
+                            <i class="fas fa-file-pdf hidden sm:inline"></i>PDF
                         </button>
                     </div>
                 </div>
 
                 <!-- Transaction Table -->
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
+                <div class="overflow-x-auto collapse-content -mx-4 sm:-mx-0">
+                    <table class="w-full text-left text-xs sm:text-sm">
                         <thead class="border-b border-slate-700">
                             <tr class="text-slate-400 uppercase text-xs font-bold">
-                                <th class="pb-3 px-4">Date</th>
-                                <th class="pb-3 px-4">Description</th>
-                                <th class="pb-3 px-4">Type</th>
-                                <th class="pb-3 px-4">Member</th>
-                                <th class="pb-3 px-4">Amount</th>
-                                <th class="pb-3 px-4">Action</th>
+                                <th class="pb-2 sm:pb-3 px-3 sm:px-4">Date</th>
+                                <th class="pb-2 sm:pb-3 px-3 sm:px-4">Desc</th>
+                                <th class="pb-2 sm:pb-3 px-3 sm:px-4">Type</th>
+                                <th class="pb-2 sm:pb-3 px-3 sm:px-4">Member</th>
+                                <th class="pb-2 sm:pb-3 px-3 sm:px-4 text-right">Amount</th>
+                                <th class="pb-2 sm:pb-3 px-3 sm:px-4 text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody id="vehicleHistoryTable" class="divide-y divide-slate-700">
+                        <tbody id="vehicleHistoryTable" class="divide-y divide-slate-700 text-xs sm:text-sm">
                             <!-- Transactions will be rendered here -->
                         </tbody>
                     </table>
@@ -300,45 +303,45 @@
         <div id="homeTransactionView" class="hidden">
             
             <!-- New Transaction Form -->
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
-                <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-6">
+                <h2 class="text-lg sm:text-xl font-bold flex items-center gap-2 mb-4 sm:mb-6">
                     <i class="fas fa-plus-circle text-emerald-400"></i>
                     New Transaction
                 </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
                     <div>
-                        <label class="block text-sm text-slate-400 font-semibold mb-2">Vehicle</label>
-                        <select id="carSelect" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 font-semibold mb-1">Vehicle</label>
+                        <select id="carSelect" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 sm:px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-xs sm:text-sm">
                             <option value="">Select a vehicle...</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm text-slate-400 font-semibold mb-2">Type</label>
-                        <select id="transType" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 font-semibold mb-1">Type</label>
+                        <select id="transType" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 sm:px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-xs sm:text-sm">
                             <option value="income">Income</option>
                             <option value="expense">Expense</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm text-slate-400 font-semibold mb-2">Member</label>
-                        <select id="paidBy" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 font-semibold mb-1">Member</label>
+                        <select id="paidBy" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 sm:px-3 py-2 text-white focus:ring-2 focus:ring-purple-500 outline-none text-xs sm:text-sm">
                             <option value="">Select...</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm text-slate-400 font-semibold mb-2">Description</label>
-                        <input type="text" id="desc" placeholder="e.g., Fuel" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 font-semibold mb-1">Description</label>
+                        <input type="text" id="desc" placeholder="e.g., Fuel" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 sm:px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 text-xs sm:text-sm">
                     </div>
                     <div>
-                        <label class="block text-sm text-slate-400 font-semibold mb-2">Amount</label>
-                        <input type="number" id="amount" placeholder="0" min="0" step="0.01" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 font-semibold mb-1">Amount</label>
+                        <input type="number" id="amount" placeholder="0" min="0" step="0.01" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 sm:px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500 text-xs sm:text-sm">
                     </div>
                     <div>
-                        <label class="block text-sm text-slate-400 font-semibold mb-2">Date</label>
-                        <input type="date" id="transDate" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm">
+                        <label class="block text-xs sm:text-sm text-slate-400 font-semibold mb-1">Date</label>
+                        <input type="date" id="transDate" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 sm:px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-xs sm:text-sm">
                     </div>
-                    <div class="lg:col-span-3">
-                        <button onclick="window.appEvents.addTransaction()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-bold transition flex items-center justify-center gap-2">
+                    <div class="col-span-1 sm:col-span-2 lg:col-span-3">
+                        <button onclick="window.appEvents.addTransaction()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-bold transition flex items-center justify-center gap-2 text-xs sm:text-base">
                             <i class="fas fa-save"></i>
                             Record Transaction
                         </button>
@@ -347,40 +350,36 @@
             </div>
 
             <!-- Filters and Export -->
-            <div class="lg:col-span-2 space-y-6">
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
-                    <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
+            <div class="lg:col-span-2 space-y-4 sm:space-y-6">
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-6">
+                    <h2 class="text-lg sm:text-xl font-bold flex items-center gap-2 mb-4 sm:mb-6">
                         <i class="fas fa-filter text-purple-400"></i>
                         Filters & Export
                     </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-3 sm:mb-4">
                         <div>
-                            <label class="block text-xs text-slate-400 font-semibold mb-1">Filter Month</label>
-                            <input type="month" id="filterMonth" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm" onchange="window.appEvents.filterByMonth()">
+                            <label class="block text-xs sm:text-sm text-slate-400 font-semibold mb-1">Filter Month</label>
+                            <input type="month" id="filterMonth" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 sm:px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-xs sm:text-sm" onchange="window.appEvents.filterByMonth()">
                         </div>
                         <div>
-                            <label class="block text-xs text-slate-400 font-semibold mb-1">Filter Vehicle</label>
-                            <select id="filterCar" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-sm" onchange="window.appEvents.filterByMonth()">
+                            <label class="block text-xs sm:text-sm text-slate-400 font-semibold mb-1">Filter Vehicle</label>
+                            <select id="filterCar" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 sm:px-3 py-2 text-white focus:ring-2 focus:ring-cyan-500 outline-none text-xs sm:text-sm" onchange="window.appEvents.filterByMonth()">
                                 <option value="">All Vehicles</option>
                             </select>
                         </div>
                     </div>
-                    <div class="flex flex-wrap gap-2">
-                        <button onclick="window.appEvents.downloadCSV()" class="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded-lg font-semibold text-xs transition">
-                            <i class="fas fa-file-csv"></i>
-                            CSV
+                    <div class="flex flex-wrap gap-1 sm:gap-2">
+                        <button onclick="window.appEvents.downloadCSV()" class="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-lg font-semibold text-xs transition">
+                            <i class="fas fa-file-csv hidden sm:inline"></i>CSV
                         </button>
-                        <button onclick="window.appEvents.downloadExcel()" class="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded-lg font-semibold text-xs transition">
-                            <i class="fas fa-file-excel"></i>
-                            Excel
+                        <button onclick="window.appEvents.downloadExcel()" class="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-lg font-semibold text-xs transition">
+                            <i class="fas fa-file-excel hidden sm:inline"></i>Excel
                         </button>
-                        <button onclick="window.appEvents.downloadPDF()" class="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded-lg font-semibold text-xs transition">
-                            <i class="fas fa-file-pdf"></i>
-                            PDF
+                        <button onclick="window.appEvents.downloadPDF()" class="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-lg font-semibold text-xs transition">
+                            <i class="fas fa-file-pdf hidden sm:inline"></i>PDF
                         </button>
-                        <button onclick="window.appEvents.confirmReset()" class="flex items-center gap-1 bg-slate-700 hover:bg-slate-600 text-slate-200 px-2 py-1 rounded-lg font-semibold text-xs transition ml-auto">
-                            <i class="fas fa-trash-alt"></i>
-                            Reset
+                        <button onclick="window.appEvents.confirmReset()" class="flex items-center gap-1 bg-slate-700 hover:bg-slate-600 text-slate-200 px-2 sm:px-3 py-1 sm:py-2 rounded-lg font-semibold text-xs transition ml-auto">
+                            <i class="fas fa-trash-alt"></i>Reset
                         </button>
                     </div>
                 </div>

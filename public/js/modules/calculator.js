@@ -275,16 +275,21 @@ export function getAllPartnerSettlements() {
  */
 export function calculateVehicleSettlement(partner, carId) {
   const transactions = getTransactions();
+  const partners = getPartners();
   
-  // Calculate partner's expenses for this vehicle
+  // Calculate partner's personal paid expenses for this vehicle
   const amountPaid = transactions
     .filter(t => t.type === 'expense' && t.paidBy === partner && t.carId === carId)
     .reduce((sum, t) => sum + t.amt, 0);
   
-  // Calculate total vehicle expenses and equal share
-  const vehicleExpenses = getExpenseForVehicle(carId);
-  const partners = getPartners();
-  const expenseShare = partners.length > 0 ? vehicleExpenses / partners.length : 0;
+  // Calculate total vehicle expenses (both common and individual)
+  // All expenses should be split equally regardless of who paid
+  const totalExpenses = transactions
+    .filter(t => t.type === 'expense' && t.carId === carId)
+    .reduce((sum, t) => sum + t.amt, 0);
+  
+  // Calculate fair share (everyone gets equal share)
+  const expenseShare = partners.length > 0 ? totalExpenses / partners.length : 0;
   
   const settlement = amountPaid - expenseShare;
   
@@ -399,18 +404,21 @@ export function calculateVehicleSettlementForMonth(partner, carId, monthKey) {
   const monthTransactions = getTransactionsForMonth(monthKey)
     .filter(t => t.carId === carId);
   
-  // Calculate partner's expenses for this vehicle in this month
+  const partners = getPartners();
+  
+  // Calculate partner's personal paid expenses for this vehicle in this month
   const amountPaid = monthTransactions
     .filter(t => t.type === 'expense' && t.paidBy === partner)
     .reduce((sum, t) => sum + t.amt, 0);
   
-  // Calculate total vehicle expenses for this month and equal share
-  const vehicleMonthlyExpenses = monthTransactions
+  // Calculate total vehicle expenses for this month (both common and individual)
+  // All expenses should be split equally regardless of who paid
+  const totalExpenses = monthTransactions
     .filter(t => t.type === 'expense')
     .reduce((sum, t) => sum + t.amt, 0);
   
-  const partners = getPartners();
-  const expenseShare = partners.length > 0 ? vehicleMonthlyExpenses / partners.length : 0;
+  // Calculate fair share (everyone gets equal share)
+  const expenseShare = partners.length > 0 ? totalExpenses / partners.length : 0;
   
   const settlement = amountPaid - expenseShare;
   

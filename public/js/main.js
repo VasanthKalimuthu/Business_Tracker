@@ -48,6 +48,9 @@ async function initializeApp() {
   initTransactions();
   initCars();
 
+  // Scroll to top on app load
+  window.scrollTo(0, 0);
+
   // Render initial UI
   renderAll();
 
@@ -845,9 +848,20 @@ function handleViewVehicleDetail(carId) {
   
   // Populate vehicle detail title and info
   const detailTitle = document.getElementById('vehicleDetailTitle');
+  const profileIcon = document.getElementById('vehicleProfileIcon');
   const detailInfo = document.getElementById('vehicleDetailInfo');
   
-  detailTitle.innerHTML = `<i class="fas fa-car text-cyan-400"></i> ${car.name}`;
+  // Display vehicle image as profile icon in sticky header
+  if (profileIcon) {
+    if (car.photo) {
+      profileIcon.innerHTML = `<img src="${car.photo}" alt="${car.name}" class="w-full h-full object-cover">`;
+    } else {
+      profileIcon.innerHTML = `<i class="fas fa-car text-slate-400 text-sm"></i>`;
+    }
+  }
+  
+  // Display vehicle name in header title
+  detailTitle.innerHTML = `<span class="truncate">${car.name}</span>`;
   
   // Create settlement rows for each partner in this vehicle
   const settlementRows = partners.map(partner => {
@@ -856,82 +870,95 @@ function handleViewVehicleDetail(carId) {
     const settlementLabel = settlement.settlement > 0 ? 'Gets Back' : settlement.settlement < 0 ? 'Owes' : 'Settled';
     
     return `
-      <tr class="border-b border-slate-600 hover:bg-slate-700/50">
-        <td class="px-4 py-3 text-white font-medium">${partner}</td>
-        <td class="px-4 py-3 text-orange-400">₹${settlement.amountPaid.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</td>
-        <td class="px-4 py-3 text-purple-400">₹${settlement.shareOfExpenses.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</td>
-        <td class="px-4 py-3"><span class="font-bold ${settlementColor}">₹${Math.abs(settlement.settlement).toLocaleString('en-IN', { maximumFractionDigits: 2 })} ${settlementLabel}</span></td>
+      <tr class="border-b border-slate-600 hover:bg-slate-700/50 text-xs sm:text-sm">
+        <td class="px-2 sm:px-4 py-2 sm:py-3 text-white font-medium line-clamp-1">${partner}</td>
+        <td class="px-2 sm:px-4 py-2 sm:py-3 text-orange-400 text-right sm:text-left">₹${settlement.amountPaid.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</td>
+        <td class="px-2 sm:px-4 py-2 sm:py-3 text-purple-400 hidden sm:table-cell">₹${settlement.shareOfExpenses.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</td>
+        <td class="px-2 sm:px-4 py-2 sm:py-3"><span class="font-bold ${settlementColor} text-right sm:text-left block">₹${Math.abs(settlement.settlement).toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span><span class="text-xs text-slate-400">${settlementLabel}</span></td>
       </tr>
     `;
   }).join('');
   
   // Create detailed info display with financial summary
   detailInfo.innerHTML = `
-    <div class="space-y-4">
-      ${car.photo ? `<div class="rounded-lg overflow-hidden h-48 bg-slate-600 mb-4"><img src="${car.photo}" alt="${car.name}" class="w-full h-full object-cover"></div>` : `<div class="rounded-lg overflow-hidden h-48 bg-slate-600 flex items-center justify-center mb-4"><i class="fas fa-car text-5xl text-slate-500"></i></div>`}
+    <div class="space-y-3 sm:space-y-4">
+      <div class="flex justify-center mb-4 sm:mb-6 relative px-2 sm:px-0">
+        <div class="relative w-full max-w-2xl h-56 sm:h-80 rounded-2xl overflow-hidden shadow-2xl vehicle-image-elite" style="background: linear-gradient(135deg, rgba(34, 197, 238, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%); border: 2px solid rgba(34, 197, 238, 0.4);">
+          ${car.photo ? `<img src="${car.photo}" alt="${car.name}" class="w-full h-full object-cover">` : `<div class="w-full h-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center"><i class="fas fa-car text-6xl sm:text-8xl text-slate-500 opacity-50"></i></div>`}
+        </div>
+        <div class="absolute hidden sm:block -top-2 -right-2 w-24 h-24 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full blur-3xl opacity-30"></div>
+        <div class="absolute hidden sm:block -bottom-2 -left-2 w-32 h-32 bg-gradient-to-tr from-purple-500 to-pink-500 rounded-full blur-3xl opacity-20"></div>
+      </div>
       
-      <div class="grid grid-cols-2 gap-4 bg-slate-700 rounded-lg p-4">
+      <div class="grid grid-cols-2 gap-2 sm:gap-4 bg-slate-700 rounded-lg p-3 sm:p-4">
         <div>
-          <p class="text-slate-400 text-sm">Model</p>
-          <p class="text-lg font-bold text-white">${car.model}</p>
+          <p class="text-slate-400 text-xs sm:text-sm">Model</p>
+          <p class="text-sm sm:text-lg font-bold text-white line-clamp-1">${car.model}</p>
         </div>
         <div>
-          <p class="text-slate-400 text-sm">Registration</p>
-          <p class="text-lg font-bold text-yellow-400">${car.registrationNumber}</p>
+          <p class="text-slate-400 text-xs sm:text-sm">Registration</p>
+          <p class="text-sm sm:text-lg font-bold text-yellow-400 line-clamp-1">${car.registrationNumber}</p>
         </div>
         <div>
-          <p class="text-slate-400 text-sm">Fuel Type</p>
-          <p class="text-lg font-bold text-white"><i class="fas ${getFuelIcon(car.fuelType)}"></i> ${car.fuelType}</p>
+          <p class="text-slate-400 text-xs sm:text-sm">Fuel Type</p>
+          <p class="text-sm sm:text-lg font-bold text-white"><i class="fas ${getFuelIcon(car.fuelType)}"></i> <span class="ml-1">${car.fuelType}</span></p>
         </div>
         <div>
-          <p class="text-slate-400 text-sm">Transmission</p>
-          <p class="text-lg font-bold text-white"><i class="fas ${getTransmissionIcon(car.transmission)}"></i> ${car.transmission}</p>
+          <p class="text-slate-400 text-xs sm:text-sm">Transmission</p>
+          <p class="text-sm sm:text-lg font-bold text-white"><i class="fas ${getTransmissionIcon(car.transmission)}"></i> <span class="ml-1">${car.transmission}</span></p>
         </div>
       </div>
       
       <!-- Financial Summary -->
-      <div class="grid grid-cols-3 gap-3">
-        <div class="bg-emerald-900/30 border border-emerald-600/30 rounded-lg p-4">
-          <p class="text-emerald-400 text-xs uppercase font-semibold mb-1">Total Income</p>
-          <p class="text-2xl font-bold text-emerald-300">₹${income.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</p>
+      <div class="grid grid-cols-3 gap-2 sm:gap-3">
+        <div class="bg-emerald-900/30 border border-emerald-600/30 rounded-lg p-2 sm:p-4">
+          <p class="text-emerald-400 text-xs uppercase font-semibold mb-1">Income</p>
+          <p class="text-sm sm:text-2xl font-bold text-emerald-300 line-clamp-1">₹${income.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
         </div>
-        <div class="bg-rose-900/30 border border-rose-600/30 rounded-lg p-4">
-          <p class="text-rose-400 text-xs uppercase font-semibold mb-1">Total Expense</p>
-          <p class="text-2xl font-bold text-rose-300">₹${expense.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</p>
+        <div class="bg-rose-900/30 border border-rose-600/30 rounded-lg p-2 sm:p-4">
+          <p class="text-rose-400 text-xs uppercase font-semibold mb-1">Expense</p>
+          <p class="text-sm sm:text-2xl font-bold text-rose-300 line-clamp-1">₹${expense.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
         </div>
-        <div class="bg-blue-900/30 border border-blue-600/30 rounded-lg p-4">
-          <p class="text-blue-400 text-xs uppercase font-semibold mb-1">Net Profit</p>
-          <p class="text-2xl font-bold ${profit >= 0 ? 'text-blue-300' : 'text-rose-300'}">₹${profit.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</p>
+        <div class="bg-blue-900/30 border border-blue-600/30 rounded-lg p-2 sm:p-4">
+          <p class="text-blue-400 text-xs uppercase font-semibold mb-1">Profit</p>
+          <p class="text-sm sm:text-2xl font-bold ${profit >= 0 ? 'text-blue-300' : 'text-rose-300'} line-clamp-1">₹${profit.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</p>
         </div>
       </div>
       
       <!-- Settlement Details -->
       <div class="bg-slate-700 rounded-lg overflow-hidden">
-        <div class="bg-slate-600 px-4 py-3 border-b border-slate-500 flex justify-between items-center">
-          <div>
-            <p class="text-white font-semibold"><i class="fas fa-exchange-alt text-cyan-400 mr-2"></i>Expense Settlement</p>
-            <p class="text-slate-300 text-xs mt-1">Expenses split equally among all partners</p>
+        <div class="bg-slate-600 px-3 sm:px-4 py-2 sm:py-3 border-b border-slate-500 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0">
+          <div class="flex-1 min-w-0 flex content-center items-center">
+            <p class="text-sm sm:text-base text-white font-semibold line-clamp-1"><i class="fas fa-exchange-alt text-cyan-400 mr-1 sm:mr-2"></i>Expense Settlement</p>
+            <p class="text-slate-300 text-xs mt-0 hidden sm:block ml-2">Expenses split equally</p>
           </div>
-          <div class="min-w-[160px]">
-            <label class="block text-xs text-slate-400 font-semibold mb-1">
-              <i class="fas fa-filter text-purple-400 mr-1"></i>Filter by Month
-            </label>
-            <input type="month" id="settlementFilterMonth" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 py-1 text-white focus:ring-2 focus:ring-purple-500 outline-none text-xs" onchange="window.appEvents.updateSettlementFilter()" value="${settlementFilterMonth}">
+          <div class="flex items-center gap-3 sm:gap-4">
+            <div class="min-w-[130px] sm:min-w-[160px]">
+              <label class="block text-xs text-slate-400 font-semibold mb-1" onclick="event.stopPropagation()">
+                <i class="fas fa-filter text-purple-400 mr-1"></i>Filter
+              </label>
+              <input type="month" id="settlementFilterMonth" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 py-1 text-white focus:ring-2 focus:ring-purple-500 outline-none text-xs" onchange="window.appEvents.updateSettlementFilter()" value="${settlementFilterMonth}" onclick="event.stopPropagation()">
+            </div>
+            <button class="collapse-toggle mt-4 sm:mt-0 p-2 rounded-lg hover:bg-slate-700 transition" onclick="this.parentElement.parentElement.nextElementSibling.classList.toggle('collapsed'); this.classList.toggle('collapsed');" title="Toggle Settlement Details">
+              <i class="fas fa-chevron-down text-cyan-400 text-lg"></i>
+            </button>
           </div>
         </div>
-        <table class="w-full">
-          <thead class="bg-slate-600/50 border-b border-slate-500">
-            <tr>
-              <th class="px-4 py-3 text-left text-slate-300 font-semibold text-sm">Partner</th>
-              <th class="px-4 py-3 text-left text-slate-300 font-semibold text-sm">Paid</th>
-              <th class="px-4 py-3 text-left text-slate-300 font-semibold text-sm">Share</th>
-              <th class="px-4 py-3 text-left text-slate-300 font-semibold text-sm">Settlement</th>
-            </tr>
-          </thead>
-          <tbody id="settlementTableBody">
-            ${settlementRows}
-          </tbody>
-        </table>
+        <div class="overflow-x-auto collapse-content -mx-3 sm:-mx-0">
+          <table class="w-full">
+            <thead class="bg-slate-600/50 border-b border-slate-500">
+              <tr>
+                <th class="px-2 sm:px-4 py-2 sm:py-3 text-left text-slate-300 font-semibold text-xs sm:text-sm">Partner</th>
+                <th class="px-2 sm:px-4 py-2 sm:py-3 text-left text-slate-300 font-semibold text-xs sm:text-sm">Paid</th>
+                <th class="px-2 sm:px-4 py-2 sm:py-3 text-left text-slate-300 font-semibold text-xs sm:text-sm">Share</th>
+                <th class="px-2 sm:px-4 py-2 sm:py-3 text-left text-slate-300 font-semibold text-xs sm:text-sm">Settle</th>
+              </tr>
+            </thead>
+            <tbody id="settlementTableBody" class="text-xs sm:text-sm">
+              ${settlementRows}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   `;
@@ -971,8 +998,41 @@ function getTransmissionIcon(transmission) {
 function showVehicleDetailView() {
   document.getElementById('dashboardView').classList.add('hidden');
   document.getElementById('vehicleDetailView').classList.remove('hidden');
-  // Scroll to top of the page
+  
+  // Scroll to top immediately
   window.scrollTo(0, 0);
+  
+  // Initialize sections - Settlement collapsed by default, Transaction history collapsed
+  setTimeout(() => {
+    // Collapse Expense Settlement section by default - find by settlement table body ID
+    const settlementTableBody = document.getElementById('settlementTableBody');
+    if (settlementTableBody) {
+      // Navigate up to find the collapse-content div
+      let collapseContent = settlementTableBody.closest('.collapse-content');
+      if (collapseContent) {
+        collapseContent.classList.add('collapsed');
+        // Find and toggle the collapse-toggle button
+        let settlementSection = collapseContent.closest('.bg-slate-700');
+        if (settlementSection) {
+          let toggleButton = settlementSection.querySelector('.collapse-toggle');
+          if (toggleButton) {
+            toggleButton.classList.add('collapsed');
+          }
+        }
+      }
+    }
+    
+    // Collapse Transaction History section by default
+    const transactionContainer = document.getElementById('vehicleTransactionHistoryContainer');
+    if (transactionContainer) {
+      const historyToggle = transactionContainer.querySelector('.collapse-toggle');
+      const historyContent = transactionContainer.querySelectorAll('.collapse-content');
+      if (historyToggle && historyContent.length > 0) {
+        historyToggle.classList.add('collapsed');
+        historyContent.forEach(content => content.classList.add('collapsed'));
+      }
+    }
+  }, 150);
 }
 
 /**
@@ -981,6 +1041,7 @@ function showVehicleDetailView() {
 function showHomeView() {
   document.getElementById('vehicleDetailView').classList.add('hidden');
   document.getElementById('dashboardView').classList.remove('hidden');
+  window.scrollTo(0, 0);
 }
 
 /**
@@ -990,6 +1051,7 @@ function handleBackToFleetView() {
   selectedVehicleId = null;
   showHomeView();
   clearVehicleFormInputs();
+  window.scrollTo(0, 0);
 }
 
 /**
@@ -1087,7 +1149,7 @@ async function handleAddVehicleTransaction() {
   }
 
   if (!paidBy) {
-    showError('Please select a team member');
+    showError('Please select a team member or mark as common');
     return;
   }
 
@@ -1222,7 +1284,7 @@ function renderVehicleTransactionHistory() {
           ${trans.type.toUpperCase()}
         </span>
       </td>
-      <td class="px-4 py-3 text-slate-300">${trans.paidBy || '—'}</td>
+      <td class="px-4 py-3 ${trans.paidBy === 'common' ? 'text-purple-400 font-semibold' : 'text-slate-300'}">${trans.paidBy === 'common' ? '<i class="fas fa-users mr-1"></i>Common' : (trans.paidBy || '—')}</td>
       <td class="px-4 py-3 font-bold ${trans.type === 'income' ? 'text-emerald-400' : 'text-red-400'}">
         ₹${trans.amt.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
       </td>
